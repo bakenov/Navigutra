@@ -2,6 +2,9 @@ package imc.visitor.shape.visitor;
 
 import static imc.visitor.utils.Utils.convertDegreesToRadians;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import imc.visitor.shape.Circle;
 import imc.visitor.shape.Rectangle;
 import imc.visitor.shape.Triangle;
@@ -16,6 +19,8 @@ import imc.visitor.utils.DistanceUnits;
  */
 public class AreaVisitor extends AbstractVisitor {
 
+	private static final Logger log = LoggerFactory.getLogger(AreaVisitor.class);
+
 	private double totalArea;
 
 	public AreaVisitor(DistanceUnits units) {
@@ -24,21 +29,20 @@ public class AreaVisitor extends AbstractVisitor {
 
 	@Override
 	public void visit(Circle circle) {
-		double convertedR = convert(circle.getRadius(), circle.getUnits());
-		totalArea += Math.PI * convertedR * convertedR;
+		double area = getCircleArea(circle);
+		totalArea += area != area ? 0. : area;
 	}
 
 	@Override
 	public void visit(Rectangle rectangle) {
-		double convertedWidth = convert(rectangle.getWidth(), rectangle.getUnits());
-		double convertedHeight = convert(rectangle.getHeight(),
-				rectangle.getUnits());
-		totalArea += convertedWidth * convertedHeight;
+		double area = getRectangleArea(rectangle);
+		totalArea += area != area ? 0. : area;
 	}
 
 	@Override
 	public void visit(Triangle triangle) {
-		totalArea += getTriangleArea(triangle);
+		double area = getTriangleArea(triangle);
+		totalArea += area != area ? 0. : area;
 	}
 
 	/**
@@ -51,6 +55,36 @@ public class AreaVisitor extends AbstractVisitor {
 	}
 
 	/**
+	 * Calculates the area of the circle
+	 * 
+	 * @param circle the circle
+	 * @return the area of the circle
+	 */
+	private double getCircleArea(Circle circle) {
+		double convertedR = convert(circle.getRadius(), circle.getUnits());
+		double area = Math.PI * convertedR * convertedR;
+		if (log.isDebugEnabled())
+			log.debug("getCircleArea()  shape={}  area={}", circle, area);
+		return area;
+	}
+
+	/**
+	 * Calculates the area of the rectangle
+	 * 
+	 * @param rectangle the rectangle
+	 * @return the area of the rectangle
+	 */
+	private double getRectangleArea(Rectangle rectangle) {
+		double convertedWidth = convert(rectangle.getWidth(), rectangle.getUnits());
+		double convertedHeight = convert(rectangle.getHeight(),
+				rectangle.getUnits());
+		double area = convertedWidth * convertedHeight;
+		if (log.isDebugEnabled())
+			log.debug("getRectangleArea()  shape={}  area={}", rectangle, area);
+		return area;
+	}
+
+	/**
 	 * Calculates the area of the triangle
 	 * 
 	 * @param triangle the triangle
@@ -59,7 +93,10 @@ public class AreaVisitor extends AbstractVisitor {
 	private double getTriangleArea(Triangle triangle) {
 		double convertedA = getSideA(triangle);
 		double convertedB = getSideB(triangle);
-		return getTriangleArea(convertedA, convertedB, triangle.getAngle());
+		double area = getTriangleArea(convertedA, convertedB, triangle.getAngle());
+		if (log.isDebugEnabled())
+			log.debug("getTriangleArea()  triangle={}  area={}", triangle, area);
+		return area;
 	}
 
 	/**

@@ -32,6 +32,11 @@ public class TriangleTest extends CommonTest {
 		new Triangle(-10.0, -5.0, 60, CENTIMETER);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructor3() {
+		new Triangle(10.0, 5.0, 30, null);
+	}
+
 	@Test
 	public void testTriangle() {
 		assertTriangle(0.0, 0.0, 0.0, CENTIMETER);

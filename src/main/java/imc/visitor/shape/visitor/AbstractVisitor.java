@@ -1,5 +1,7 @@
 package imc.visitor.shape.visitor;
 
+import static imc.visitor.utils.Utils.notNull;
+
 import imc.visitor.shape.Triangle;
 import imc.visitor.utils.DistanceUnits;
 
@@ -15,7 +17,7 @@ abstract class AbstractVisitor implements IVisitor {
 	private final DistanceUnits units;
 
 	public AbstractVisitor(DistanceUnits units) {
-		this.units = units;
+		this.units = notNull(units, "units");
 	}
 
 	/**
@@ -39,10 +41,22 @@ abstract class AbstractVisitor implements IVisitor {
 		return units;
 	}
 
+	/**
+	 * Converts the triangle's side a to distance in visitor's units
+	 * 
+	 * @param triangle the triangle
+	 * @return the distance of the triangle's side a in visitor's units
+	 */
 	double getSideA(Triangle triangle) {
 		return convert(triangle.getSideA(), triangle.getUnits());
 	}
 
+	/**
+	 * Converts the triangle's side b to distance in visitor's units
+	 * 
+	 * @param triangle the triangle
+	 * @return the distance of the triangle's side b in visitor's units
+	 */
 	double getSideB(Triangle triangle) {
 		return convert(triangle.getSideB(), triangle.getUnits());
 	}

@@ -16,6 +16,7 @@ public interface IShapeFactory<S extends IShape> {
 	 * 
 	 * @param radius the radius of the circle
 	 * @return the circle shape
+	 * @throws IllegalArgumentException when <code>radius</code> is negative
 	 */
 	S createShape(double radius);
 
@@ -25,6 +26,8 @@ public interface IShapeFactory<S extends IShape> {
 	 * @param width  the width of the rectangle
 	 * @param height the height of the rectangle
 	 * @return the rectangle shape
+	 * @throws IllegalArgumentException when <code>width</code> or/and
+	 *                                  <code>height</code> are negative
 	 */
 	S createShape(double width, double height);
 
@@ -35,6 +38,8 @@ public interface IShapeFactory<S extends IShape> {
 	 * @param sideB the side of the triangle
 	 * @param alpha the angle between the sides in degrees
 	 * @return the triangle shape
+	 * @throws IllegalArgumentException when any of the input parameters are
+	 *                                  negative
 	 */
 	S createShape(double sideA, double sideB, double alpha);
 }

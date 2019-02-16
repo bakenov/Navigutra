@@ -22,6 +22,11 @@ public class CircleTest extends CommonTest {
 		new Circle(-10.0, DistanceUnits.CENTIMETER);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructor1() {
+		new Circle(-10.0, null);
+	}
+
 	@Test
 	public void testCircle() {
 		assertCircle(0.0, CENTIMETER);

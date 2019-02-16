@@ -32,6 +32,11 @@ public class RectangleTest extends CommonTest {
 		new Rectangle(-10.0, -5.0, CENTIMETER);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructor3() {
+		new Rectangle(10.0, 5.0, null);
+	}
+
 	@Test
 	public void testRectangle() {
 		assertRect(0.0, 0.0, CENTIMETER);

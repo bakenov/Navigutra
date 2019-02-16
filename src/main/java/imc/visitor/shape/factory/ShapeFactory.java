@@ -1,5 +1,7 @@
 package imc.visitor.shape.factory;
 
+import static imc.visitor.utils.Utils.notNull;
+
 import imc.visitor.shape.Circle;
 import imc.visitor.shape.IShape;
 import imc.visitor.shape.Rectangle;
@@ -22,7 +24,7 @@ public class ShapeFactory implements IShapeFactory<IShape> {
 	 * @param units the distance units
 	 */
 	public ShapeFactory(DistanceUnits units) {
-		this.units = units;
+		this.units = notNull(units, "units");
 	}
 
 	@Override
@@ -39,5 +41,4 @@ public class ShapeFactory implements IShapeFactory<IShape> {
 	public IShape createShape(double sideA, double sideB, double alpha) {
 		return new Triangle(sideA, sideB, alpha, units);
 	}
-
 }

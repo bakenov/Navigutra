@@ -8,6 +8,6 @@ package imc.visitor.shape;
  */
 public class CommonTest {
 
-	static final double EPSILON = 1.e-10;
+	public static final double EPSILON = 1.e-8;
 
 }

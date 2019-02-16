@@ -1,1 +1,59 @@
-/bin/
+.DS_Store
+.gradle/
+build/
+*.ipr
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+bin/
+out/
+logs/
+war/
+/depricated
+.factorypath
+
+### Eclipse template
+
+.metadata
+tmp/
+*.tmp
+*.bak
+*.bin
+*.lock
+# Eclipse Core
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# JDT-specific (Eclipse Java Development Tools)
+
+# Java annotation processor (APT)
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/

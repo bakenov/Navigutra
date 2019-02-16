@@ -1,6 +1,7 @@
 package imc.visitor.shape;
 
 import static imc.visitor.shape.ShapeType.CIRCLE;
+import static imc.visitor.utils.Utils.notNegative;
 
 import imc.visitor.shape.visitor.IVisitor;
 import imc.visitor.utils.DistanceUnits;
@@ -13,8 +14,6 @@ import imc.visitor.utils.DistanceUnits;
  */
 public class Circle extends AbstractShape {
 
-	private static final String RADIUS_PARAMETER = "The radius";
-
 	private final double radius;
 
 	/**
@@ -25,8 +24,7 @@ public class Circle extends AbstractShape {
 	 */
 	public Circle(double radius, DistanceUnits units) {
 		super(CIRCLE, units);
-		validateParameter(radius, RADIUS_PARAMETER);
-		this.radius = radius;
+		this.radius = notNegative(radius, "radius");
 	}
 
 	@Override
@@ -41,5 +39,10 @@ public class Circle extends AbstractShape {
 	 */
 	public double getRadius() {
 		return radius;
+	}
+
+	@Override
+	public String toString() {
+		return "Circle(" + format(radius) + "|" + getUnits().getSymbol() + ")";
 	}
 }

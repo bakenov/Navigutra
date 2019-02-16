@@ -1,6 +1,7 @@
 package imc.visitor.shape;
 
 import static imc.visitor.shape.ShapeType.TRIANGLE;
+import static imc.visitor.utils.Utils.notNegative;
 
 import imc.visitor.shape.visitor.IVisitor;
 import imc.visitor.utils.DistanceUnits;
@@ -31,12 +32,9 @@ public class Triangle extends AbstractShape {
 	 */
 	public Triangle(double a, double b, double alpha, DistanceUnits units) {
 		super(TRIANGLE, units);
-		validateParameter(a, A_PARAMETER);
-		validateParameter(b, B_PARAMETER);
-		validateParameter(alpha, ALPHA_PARAMETER);
-		this.a = a;
-		this.b = b;
-		this.alpha = alpha;
+		this.a = notNegative(a, A_PARAMETER);
+		this.b = notNegative(b, B_PARAMETER);
+		this.alpha = notNegative(alpha, ALPHA_PARAMETER);
 	}
 
 	@Override
@@ -71,4 +69,9 @@ public class Triangle extends AbstractShape {
 		return alpha;
 	}
 
+	@Override
+	public String toString() {
+		return "Triangle(" + format(a) + "|" + format(b) + "|" + format(alpha) + "|"
+				+ getUnits().getSymbol() + ")";
+	}
 }

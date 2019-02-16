@@ -1,5 +1,7 @@
 package imc.visitor.shape;
 
+import static imc.visitor.utils.Utils.notNull;
+
 import imc.visitor.utils.DistanceUnits;
 
 /**
@@ -9,8 +11,6 @@ import imc.visitor.utils.DistanceUnits;
  *
  */
 public abstract class AbstractShape implements IShape {
-
-	private static final String NEGATIVE_PARAMETER_ERROR_MESSAGE = " cannot be negative";
 
 	private final DistanceUnits units;
 	private final ShapeType shapeType;
@@ -22,8 +22,8 @@ public abstract class AbstractShape implements IShape {
 	 * @param units  the distance units
 	 */
 	public AbstractShape(ShapeType shapeType, DistanceUnits units) {
-		this.shapeType = shapeType;
-		this.units = units;
+		this.shapeType = notNull(shapeType, "shapeType");
+		this.units = notNull(units, "units");
 	}
 
 	/**
@@ -40,9 +40,7 @@ public abstract class AbstractShape implements IShape {
 		return shapeType;
 	}
 
-	void validateParameter(double p, String parameter) {
-		if (p < 0)
-			throw new IllegalArgumentException(
-					parameter + NEGATIVE_PARAMETER_ERROR_MESSAGE);
+	String format(double value) {
+		return String.format("%.2f", value);
 	}
 }

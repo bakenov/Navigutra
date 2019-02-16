@@ -1,6 +1,7 @@
 package imc.visitor.shape.visitor;
 
 import static imc.visitor.utils.Utils.convertDegreesToRadians;
+import static imc.visitor.utils.Utils.isZeroOrNaN;
 
 import imc.visitor.shape.Circle;
 import imc.visitor.shape.Rectangle;
@@ -24,21 +25,48 @@ public class PerimeterVisitor extends AbstractVisitor {
 
 	@Override
 	public void visit(Circle circle) {
-		double convertedR = convert(circle.getRadius(), circle.getUnits());
-		totalLength += 2.0 * Math.PI * convertedR;
+		double p = getPerimeter(circle);
+		totalLength += p != p ? 0. : p;
 	}
 
 	@Override
 	public void visit(Rectangle rectangle) {
-		double convertedWidth = convert(rectangle.getWidth(), rectangle.getUnits());
-		double convertedHeight = convert(rectangle.getHeight(),
-				rectangle.getUnits());
-		totalLength += 4.0 * convertedWidth * convertedHeight;
+		double p = getPerimeter(rectangle);
+		totalLength += p != p ? 0. : p;
 	}
 
 	@Override
 	public void visit(Triangle triangle) {
-		totalLength += getPerimeter(triangle);
+		double p = getPerimeter(triangle);
+		totalLength += p != p ? 0. : p;
+	}
+
+	/**
+	 * Calculates the perimeter of the circle
+	 * 
+	 * @param circle the circle
+	 * @return the perimeter of the circle
+	 */
+	private double getPerimeter(Circle circle) {
+		double convertedR = convert(circle.getRadius(), circle.getUnits());
+		return 2.0 * Math.PI * convertedR;
+	}
+
+	/**
+	 * Calculates the perimeter of the rectangle. If one of the side is zero or
+	 * NaN, the perimeter is zero.
+	 * 
+	 * @param rectangle the rectangle
+	 * @return the perimeter of the rectangle
+	 */
+	private double getPerimeter(Rectangle rectangle) {
+		double w = rectangle.getWidth();
+		double h = rectangle.getHeight();
+		if (isZeroOrNaN(w) || isZeroOrNaN(h))
+			return 0.;
+		double convertedWidth = convert(w, rectangle.getUnits());
+		double convertedHeight = convert(h, rectangle.getUnits());
+		return 2. * convertedWidth + 2. * convertedHeight;
 	}
 
 	/**
@@ -48,6 +76,11 @@ public class PerimeterVisitor extends AbstractVisitor {
 	 * @return the perimeter of the triangle
 	 */
 	private double getPerimeter(Triangle triangle) {
+		double a = triangle.getSideA();
+		double b = triangle.getSideB();
+		double angle = triangle.getAngle();
+		if (isZeroOrNaN(a) || isZeroOrNaN(b) || isZeroOrNaN(angle))
+			return 0.;
 		double convertedA = getSideA(triangle);
 		double convertedB = getSideB(triangle);
 		double c = getC(convertedA, convertedB, triangle.getAngle());

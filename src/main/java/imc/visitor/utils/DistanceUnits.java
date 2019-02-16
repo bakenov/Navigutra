@@ -12,7 +12,7 @@ public enum DistanceUnits {
 	/**
 	 * Distance unit representing one tenth of a centimeter
 	 */
-	MILLIMETER {
+	MILLIMETER("mm") {
 		public double toMillimeters(double d) {
 			return d;
 		}
@@ -30,7 +30,7 @@ public enum DistanceUnits {
 		}
 	},
 
-	CENTIMETER {
+	CENTIMETER("sm") {
 		public double toMillimeters(double d) {
 			return d * C1;
 		}
@@ -47,7 +47,7 @@ public enum DistanceUnits {
 			return u.toCentimeters(d);
 		}
 	},
-	METER {
+	METER("m") {
 		public double toMillimeters(double d) {
 			return d * C3;
 		}
@@ -66,10 +66,24 @@ public enum DistanceUnits {
 	};
 
 	// Handy constants for conversion methods
-	static final double C0 = 1L;
-	static final double C1 = C0 * 10.;
-	static final double C2 = C1 * 10.;
-	static final double C3 = C2 * 10.;
+	private static final double C0 = 1L;
+	private static final double C1 = C0 * 10.;
+	private static final double C2 = C1 * 10.;
+	private static final double C3 = C2 * 10.;
+	private final String symbol;
+
+	/**
+	 * The constructor
+	 * 
+	 * @param desc
+	 */
+	DistanceUnits(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public String getSymbol() {
+		return symbol;
+	}
 
 	/**
 	 * Equivalent to {@link #convert(double, DistanceUnits) MILLIMETER.convert(d,

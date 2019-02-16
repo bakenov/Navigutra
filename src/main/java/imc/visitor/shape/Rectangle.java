@@ -13,6 +13,9 @@ import imc.visitor.utils.DistanceUnits;
  */
 public class Rectangle extends AbstractShape {
 
+	private static final String WIDTH_PARAMETER = "The width";
+	private static final String HEIGHT_PARAMETER = "The height";
+
 	private final double width;
 	private final double height;
 
@@ -25,6 +28,8 @@ public class Rectangle extends AbstractShape {
 	 */
 	public Rectangle(double width, double height, DistanceUnits units) {
 		super(RECTANGLE, units);
+		validateParameter(width, WIDTH_PARAMETER);
+		validateParameter(height, HEIGHT_PARAMETER);
 		this.width = width;
 		this.height = height;
 	}

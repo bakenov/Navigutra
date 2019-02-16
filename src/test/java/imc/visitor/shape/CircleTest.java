@@ -1,6 +1,8 @@
 package imc.visitor.shape;
 
 import static imc.visitor.utils.DistanceUnits.CENTIMETER;
+import static imc.visitor.utils.DistanceUnits.METER;
+import static imc.visitor.utils.DistanceUnits.MILLIMETER;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -8,14 +10,12 @@ import org.junit.Test;
 import imc.visitor.utils.DistanceUnits;
 
 /**
- * This is a test for the {@link Circle} class.
+ * Tests for the {@link Circle} class.
  *
  * @author bakenov
  *
  */
-public class CircleTest {
-
-	private static final double EPSILON = 1.e-10;
+public class CircleTest extends CommonTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructor() {
@@ -24,19 +24,16 @@ public class CircleTest {
 
 	@Test
 	public void testCircle() {
-		double radius = 0.0;
-		Circle circle = new Circle(radius, CENTIMETER);
+		assertCircle(0.0, CENTIMETER);
+		assertCircle(5.0, METER);
+		assertCircle(Double.MAX_VALUE, MILLIMETER);
+		assertCircle(Double.NaN, MILLIMETER);
+	}
+
+	private void assertCircle(double radius, DistanceUnits units) {
+		Circle circle = new Circle(radius, units);
 		assertEquals(radius, circle.getRadius(), EPSILON);
-		radius = 5.0;
-		circle = new Circle(radius, CENTIMETER);
-		assertEquals(radius, circle.getRadius(), EPSILON);
-		radius = Double.MAX_VALUE;
-		circle = new Circle(radius, CENTIMETER);
-		assertEquals(radius, circle.getRadius(), EPSILON);
-		radius = Double.NaN;
-		circle = new Circle(radius, CENTIMETER);
-		assertEquals(radius, circle.getRadius(), EPSILON);
-		assertEquals(CENTIMETER, circle.getUnits());
+		assertEquals(units, circle.getUnits());
 		assertEquals(ShapeType.CIRCLE, circle.getType());
 	}
 

@@ -13,6 +13,10 @@ import imc.visitor.utils.DistanceUnits;
  */
 public class Triangle extends AbstractShape {
 
+	private static final String A_PARAMETER = "The first side";
+	private static final String B_PARAMETER = "The second side";
+	private static final String ALPHA_PARAMETER = "The angle";
+
 	private final double a;
 	private final double b;
 	private final double alpha;
@@ -27,6 +31,9 @@ public class Triangle extends AbstractShape {
 	 */
 	public Triangle(double a, double b, double alpha, DistanceUnits units) {
 		super(TRIANGLE, units);
+		validateParameter(a, A_PARAMETER);
+		validateParameter(b, B_PARAMETER);
+		validateParameter(alpha, ALPHA_PARAMETER);
 		this.a = a;
 		this.b = b;
 		this.alpha = alpha;

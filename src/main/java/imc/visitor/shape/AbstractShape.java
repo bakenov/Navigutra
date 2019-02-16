@@ -10,6 +10,8 @@ import imc.visitor.utils.DistanceUnits;
  */
 public abstract class AbstractShape implements IShape {
 
+	private static final String NEGATIVE_PARAMETER_ERROR_MESSAGE = " cannot be negative";
+
 	private final DistanceUnits units;
 	private final ShapeType shapeType;
 
@@ -36,5 +38,11 @@ public abstract class AbstractShape implements IShape {
 	@Override
 	public ShapeType getType() {
 		return shapeType;
+	}
+
+	void validateParameter(double p, String parameter) {
+		if (p < 0)
+			throw new IllegalArgumentException(
+					parameter + NEGATIVE_PARAMETER_ERROR_MESSAGE);
 	}
 }

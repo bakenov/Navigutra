@@ -5,6 +5,7 @@ import static imc.visitor.utils.Utils.convertDegreesToRadians;
 import imc.visitor.shape.Circle;
 import imc.visitor.shape.Rectangle;
 import imc.visitor.shape.Triangle;
+import imc.visitor.utils.DistanceUnits;
 
 /**
  * The visitor of the geometric shapes, specializing in calculation of the
@@ -13,26 +14,57 @@ import imc.visitor.shape.Triangle;
  * @author bakenov
  *
  */
-public class PerimeterVisitor implements IVisitor {
+public class PerimeterVisitor extends AbstractVisitor {
 
 	private double totalLength;
 
+	public PerimeterVisitor(DistanceUnits units) {
+		super(units);
+	}
+
 	@Override
 	public void visit(Circle circle) {
-		totalLength += 2.0 * Math.PI * circle.getRadius();
+		double convertedR = convert(circle.getRadius(), circle.getUnits());
+		totalLength += 2.0 * Math.PI * convertedR;
 	}
 
 	@Override
 	public void visit(Rectangle rectangle) {
-		totalLength += 4.0 * rectangle.getWidth() * rectangle.getHeight();
+		double convertedWidth = convert(rectangle.getWidth(), rectangle.getUnits());
+		double convertedHeight = convert(rectangle.getHeight(),
+				rectangle.getUnits());
+		totalLength += 4.0 * convertedWidth * convertedHeight;
 	}
 
 	@Override
 	public void visit(Triangle triangle) {
-		totalLength += Math.sqrt(triangle.getSideA() * triangle.getSideA()
-				+ triangle.getSideB() * triangle.getSideB()
-				- 2.0 * triangle.getSideA() * triangle.getSideB()
-						* Math.cos(convertDegreesToRadians(triangle.getAngle())));
+		totalLength += getPerimeter(triangle);
+	}
+
+	/**
+	 * Calculates the triangle's perimeter
+	 * 
+	 * @param triangle the triangle
+	 * @return the perimeter of the triangle
+	 */
+	private double getPerimeter(Triangle triangle) {
+		double convertedA = getSideA(triangle);
+		double convertedB = getSideB(triangle);
+		double c = getC(convertedA, convertedB, triangle.getAngle());
+		return convertedA + convertedB + c;
+	}
+
+	/**
+	 * Calculates the third side of the triangle
+	 * 
+	 * @param a     the first side of the triangle
+	 * @param b     the second side of the triangle
+	 * @param alpha the angle between side a and b in degrees
+	 * @return the third side of the triangle
+	 */
+	private double getC(double a, double b, double alpha) {
+		return Math.sqrt(
+				a * a + b * b - 2.0 * a * b * Math.cos(convertDegreesToRadians(alpha)));
 	}
 
 	/**

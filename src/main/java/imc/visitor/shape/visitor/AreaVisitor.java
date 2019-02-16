@@ -14,34 +14,31 @@ import imc.visitor.utils.DistanceUnits;
  * @author bakenov
  *
  */
-public class AreaVisitor implements IVisitor {
+public class AreaVisitor extends AbstractVisitor {
 
-	private final DistanceUnits units;
 	private double totalArea;
 
 	public AreaVisitor(DistanceUnits units) {
-		this.units = units;
+		super(units);
 	}
 
 	@Override
 	public void visit(Circle circle) {
-		double convertedR = units.convert(circle.getRadius(), circle.getUnits());
+		double convertedR = convert(circle.getRadius(), circle.getUnits());
 		totalArea += Math.PI * convertedR * convertedR;
 	}
 
 	@Override
 	public void visit(Rectangle rectangle) {
-		double convertedWidth = units.convert(rectangle.getWidth(),
-				rectangle.getUnits());
-		double convertedHeight = units.convert(rectangle.getHeight(),
+		double convertedWidth = convert(rectangle.getWidth(), rectangle.getUnits());
+		double convertedHeight = convert(rectangle.getHeight(),
 				rectangle.getUnits());
 		totalArea += convertedWidth * convertedHeight;
 	}
 
 	@Override
 	public void visit(Triangle triangle) {
-		totalArea += 0.5 * triangle.getSideA() * triangle.getSideB()
-				* Math.sin(convertDegreesToRadians(triangle.getAngle()));
+		totalArea += getTriangleArea(triangle);
 	}
 
 	/**
@@ -51,5 +48,29 @@ public class AreaVisitor implements IVisitor {
 	 */
 	public double getTotalArea() {
 		return totalArea;
+	}
+
+	/**
+	 * Calculates the area of the triangle
+	 * 
+	 * @param triangle the triangle
+	 * @return the area of the triangle
+	 */
+	private double getTriangleArea(Triangle triangle) {
+		double convertedA = getSideA(triangle);
+		double convertedB = getSideB(triangle);
+		return getTriangleArea(convertedA, convertedB, triangle.getAngle());
+	}
+
+	/**
+	 * Calculates the area of the triangle
+	 * 
+	 * @param a     the first side of the triangle
+	 * @param b     the second side of the triangle
+	 * @param alpha the angle between side a and b in degrees
+	 * @return the area of the triangle
+	 */
+	private double getTriangleArea(double a, double b, double alpha) {
+		return 0.5 * a * b * Math.sin(convertDegreesToRadians(alpha));
 	}
 }

@@ -13,6 +13,8 @@ import imc.visitor.utils.DistanceUnits;
  */
 public class Circle extends AbstractShape {
 
+	private static final String RADIUS_PARAMETER = "The radius";
+
 	private final double radius;
 
 	/**
@@ -23,6 +25,7 @@ public class Circle extends AbstractShape {
 	 */
 	public Circle(double radius, DistanceUnits units) {
 		super(CIRCLE, units);
+		validateParameter(radius, RADIUS_PARAMETER);
 		this.radius = radius;
 	}
 

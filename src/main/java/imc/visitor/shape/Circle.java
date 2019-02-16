@@ -1,6 +1,9 @@
 package imc.visitor.shape;
 
+import static imc.visitor.shape.ShapeType.CIRCLE;
+
 import imc.visitor.shape.visitor.IVisitor;
+import imc.visitor.utils.DistanceUnits;
 
 /**
  * Represents the circle geometric shape
@@ -8,17 +11,19 @@ import imc.visitor.shape.visitor.IVisitor;
  * @author bakenov
  *
  */
-public class Circle implements IShape {
+public class Circle extends AbstractShape {
 
 	private final double radius;
 
-	public Circle(double radius) {
+	/**
+	 * The constructor of the circle
+	 * 
+	 * @param radius the radius of the circle
+	 * @param units  the distance units
+	 */
+	public Circle(double radius, DistanceUnits units) {
+		super(CIRCLE, units);
 		this.radius = radius;
-	}
-
-	@Override
-	public ShapeType getType() {
-		return ShapeType.CIRCLE;
 	}
 
 	@Override
@@ -34,5 +39,4 @@ public class Circle implements IShape {
 	public double getRadius() {
 		return radius;
 	}
-
 }

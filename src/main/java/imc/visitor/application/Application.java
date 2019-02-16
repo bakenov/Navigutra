@@ -43,7 +43,7 @@ public class Application {
 	/**
 	 * Constructs the application
 	 * 
-	 * @param args the reference to the application configuration file
+	 * @param args the application arguments
 	 */
 	public Application(String[] args) {
 		numberShapes = getNumberShapes(args);

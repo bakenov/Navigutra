@@ -1,6 +1,5 @@
 .DS_Store
 .gradle/
-build/
 *.ipr
 *.iml
 *.iws
@@ -8,11 +7,10 @@ build/
 .classpath
 .settings/
 bin/
+build/
 out/
 logs/
 war/
-/depricated
-.factorypath
 
 ### Eclipse template
 

@@ -2,9 +2,6 @@ package imc.visitor.shape.visitor;
 
 import static imc.visitor.utils.Utils.convertDegreesToRadians;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import imc.visitor.shape.Circle;
 import imc.visitor.shape.Rectangle;
 import imc.visitor.shape.Triangle;
@@ -18,8 +15,6 @@ import imc.visitor.utils.DistanceUnits;
  *
  */
 public class AreaVisitor extends AbstractVisitor {
-
-	private static final Logger log = LoggerFactory.getLogger(AreaVisitor.class);
 
 	private double totalArea;
 
@@ -63,8 +58,6 @@ public class AreaVisitor extends AbstractVisitor {
 	private double getCircleArea(Circle circle) {
 		double convertedR = convert(circle.getRadius(), circle.getUnits());
 		double area = Math.PI * convertedR * convertedR;
-		if (log.isDebugEnabled())
-			log.debug("getCircleArea()  shape={}  area={}", circle, area);
 		return area;
 	}
 
@@ -79,8 +72,6 @@ public class AreaVisitor extends AbstractVisitor {
 		double convertedHeight = convert(rectangle.getHeight(),
 				rectangle.getUnits());
 		double area = convertedWidth * convertedHeight;
-		if (log.isDebugEnabled())
-			log.debug("getRectangleArea()  shape={}  area={}", rectangle, area);
 		return area;
 	}
 
@@ -94,8 +85,6 @@ public class AreaVisitor extends AbstractVisitor {
 		double convertedA = getSideA(triangle);
 		double convertedB = getSideB(triangle);
 		double area = getTriangleArea(convertedA, convertedB, triangle.getAngle());
-		if (log.isDebugEnabled())
-			log.debug("getTriangleArea()  triangle={}  area={}", triangle, area);
 		return area;
 	}
 

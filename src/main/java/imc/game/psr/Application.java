@@ -17,7 +17,6 @@ import imc.game.psr.game.weapon.IWeapon;
 import imc.game.psr.game.weapon.WeaponBuilder;
 import imc.game.psr.input.IInputOutput;
 import imc.game.psr.input.InputOutput;
-import imc.game.psr.input.InputOutputApp;
 
 /**
  * The application program that plays Paper Scissors Rock between the computer
@@ -28,8 +27,7 @@ import imc.game.psr.input.InputOutputApp;
  */
 public class Application implements IGameEventListener {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(InputOutputApp.class);
+	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	private final ApplicationContext context;
 	private IInputOutput inputOutput;
@@ -50,7 +48,7 @@ public class Application implements IGameEventListener {
 		config = context.getGameConfig();
 		inputOutput = new InputOutput(config, this);
 		builder = new WeaponBuilder<>(config);
-		model = new GameModel<IWeapon>(config, builder, inputOutput);
+		model = new GameModel<IWeapon>(config, builder, inputOutput, this);
 		playerBuilder = new PlayerBuilder(inputOutput, model, config);
 		model.setPlayerBuilder(playerBuilder);
 	}

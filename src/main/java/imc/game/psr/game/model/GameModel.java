@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import imc.game.psr.game.config.IGameConfig;
+import imc.game.psr.game.model.event.BaseEvent;
 import imc.game.psr.game.model.event.EventType;
 import imc.game.psr.game.model.event.GameReportEvent;
 import imc.game.psr.game.model.event.IGameEvent;
@@ -36,6 +37,7 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 
 	private final IBuilder<W> builder;
 	private final IGameEventListener reportListener;
+	private final IGameEventListener quiteCommandListener;
 	private final IGameConfig config;
 	private final int numberCycles;
 	private final long waitPeriodInMillis;
@@ -44,12 +46,15 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 	private IReport report;
 	private int cycleIndex;
 	private CountDownLatch latch;
+	private boolean isRunning;
 
 	public GameModel(IGameConfig config, IBuilder<W> builder,
-			IGameEventListener reportListener) {
+			IGameEventListener reportListener,
+			IGameEventListener quiteCommandListener) {
 		this.builder = builder;
 		this.config = config;
 		this.reportListener = reportListener;
+		this.quiteCommandListener = quiteCommandListener;
 		this.numberCycles = config.getNumberGames();
 		this.waitPeriodInMillis = DEFAULT_WAIT_PERIOD;
 	}
@@ -68,7 +73,8 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 
 	@Override
 	public void start() {
-		while (++cycleIndex <= numberCycles) {
+		isRunning = true;
+		while (++cycleIndex <= numberCycles && isRunning) {
 			clearWeaponSelection();
 
 			latch = new CountDownLatch(2);
@@ -88,14 +94,15 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 				report.registerResult(gameResult);
 			}
 		}
-
 		gameFinished();
+		isRunning = false;
 	}
 
 	private void gameFinished() {
 		String reportString = report.buildReport();
 		log.debug("gameFinished()   report={}", reportString);
 		reportListener.onGameEvent(new GameReportEvent(reportString));
+		quiteCommandListener.onGameEvent(new BaseEvent(EventType.QUIT_COMMAND));
 	}
 
 	private void clearWeaponSelection() {
@@ -105,7 +112,10 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 
 	@Override
 	public void stop() {
+		isRunning = false;
 		reportListener.onGameEvent(new GameReportEvent(report.buildReport()));
+		latch.countDown();
+		latch.countDown();
 	}
 
 	@Override

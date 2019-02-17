@@ -6,6 +6,12 @@ import imc.game.psr.game.player.GamePlayerType;
 import it.unimi.dsi.fastutil.chars.Char2ObjectMap;
 import it.unimi.dsi.fastutil.chars.CharSet;
 
+/**
+ * The game configuration interface
+ * 
+ * @author bakenov
+ *
+ */
 public interface IGameConfig {
 
 	/**

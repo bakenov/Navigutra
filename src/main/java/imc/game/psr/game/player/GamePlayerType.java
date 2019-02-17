@@ -7,5 +7,5 @@ package imc.game.psr.game.player;
  *
  */
 public enum GamePlayerType {
-	RANDOM, INPUT;
+	RANDOM, INPUT, PREDEFINED;
 }

@@ -4,6 +4,7 @@ import imc.game.psr.game.config.IGameConfig;
 import imc.game.psr.game.model.event.IGameEventListener;
 import imc.game.psr.game.weapon.selectionstrategy.ISelectionStrategy;
 import imc.game.psr.game.weapon.selectionstrategy.InputSelectionStrategy;
+import imc.game.psr.game.weapon.selectionstrategy.PredefinedStrategy;
 import imc.game.psr.game.weapon.selectionstrategy.RandomSelectionStrategy;
 
 /**
@@ -35,12 +36,21 @@ public class PlayerBuilder implements IPlayerBuilder {
 	@Override
 	public IPlayer buildPlayer(String playerName, GamePlayerType type) {
 		ISelectionStrategy strategy = null;
-		if (type == GamePlayerType.RANDOM) {
+		switch (type) {
+		case RANDOM:
 			strategy = new RandomSelectionStrategy(playerName,
 					config.getWeaponSymbolSet(), gameModel);
-		} else if (type == GamePlayerType.INPUT) {
+			break;
+		case INPUT:
 			strategy = new InputSelectionStrategy<>(playerName, inputComponent,
 					gameModel);
+			break;
+		case PREDEFINED:
+			strategy = new PredefinedStrategy(playerName, gameModel);
+			break;
+		}
+		if (type == GamePlayerType.RANDOM) {
+		} else if (type == GamePlayerType.INPUT) {
 		}
 		if (strategy != null)
 			return new GamePlayer(playerName, strategy);

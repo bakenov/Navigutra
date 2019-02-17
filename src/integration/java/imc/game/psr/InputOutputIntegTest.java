@@ -1,7 +1,6 @@
-package imc.game.psr.input;
+package imc.game.psr;
 
 import java.io.PrintStream;
-import java.util.Scanner;
 
 import imc.game.psr.game.config.IGameConfig;
 import imc.game.psr.game.model.event.BaseEvent;
@@ -11,6 +10,8 @@ import imc.game.psr.game.model.event.IGameEvent;
 import imc.game.psr.game.model.event.IGameEventListener;
 import imc.game.psr.game.model.event.TakeInputEvent;
 import imc.game.psr.game.model.event.WeaponSelectedEvent;
+import imc.game.psr.input.IInputOutput;
+import imc.game.psr.input.InputValidator;
 
 /**
  * Input IO component responsible for the receiving the messages from the user
@@ -18,11 +19,10 @@ import imc.game.psr.game.model.event.WeaponSelectedEvent;
  * @author bakenov
  *
  */
-public class InputOutput implements IInputOutput, Runnable {
+public class InputOutputIntegTest implements IInputOutput, Runnable {
 
 	private static final String INVALID_WEAPON = "Invalid symbol for a weapon";
 
-	private Scanner scan;
 	private volatile boolean isRunning;
 	private final IGameEventListener quiteCommandListener;
 	private final InputValidator inputValidator;
@@ -41,7 +41,7 @@ public class InputOutput implements IInputOutput, Runnable {
 	 * @param out         the output IO component
 	 * @param config      an IO configuration component
 	 */
-	public InputOutput(IGameConfig config,
+	public InputOutputIntegTest(IGameConfig config,
 			IGameEventListener quiteCommandListener) {
 		this.selectWeaponMessage = config.getConsoleMessage();
 		this.quitCommand = config.getQuitCommand();
@@ -62,7 +62,7 @@ public class InputOutput implements IInputOutput, Runnable {
 	public void stop() {
 		if (isRunning) {
 			isRunning = false;
-			scan.close();
+			displayConsoleMessage("Finish.");
 		}
 	}
 
@@ -71,14 +71,12 @@ public class InputOutput implements IInputOutput, Runnable {
 	 * current thread while waiting the user input.
 	 */
 	public void run() {
-		scan = new Scanner(System.in);
-		String command = new String();
 		while (isRunning) {
-			command = scan.nextLine();
-			processCommand(command);
+			if (currentTakeInputEvent != null) {
+				processCommand("R");
+			}
 		}
 		System.out.println("InputOutput.run()   the run finishing");
-		scan.close();
 	}
 
 	private void processCommand(String input) {

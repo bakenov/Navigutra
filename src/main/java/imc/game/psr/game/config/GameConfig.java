@@ -30,8 +30,10 @@ public class GameConfig implements IGameConfig {
 	private GamePlayerType secondPlayerType;
 
 	/**
-	 * @param param
-	 * @param properties
+	 * Extracts the value of the configuration parameter from property file
+	 * 
+	 * @param param      the configuration parameter
+	 * @param properties the properties
 	 */
 	protected void processParam(Parameters param, Properties properties) {
 		String value = properties.getProperty(param.getQualifiedName());

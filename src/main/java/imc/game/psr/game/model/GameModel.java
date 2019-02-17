@@ -90,7 +90,6 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 			if (firstPlayerData.weapon != null && secondPlayerData.weapon != null) {
 				IGameResult gameResult = new GameResult(cycleIndex, firstPlayerData,
 						secondPlayerData);
-				log.debug("start()   gameResult={}", gameResult);
 				report.registerResult(gameResult);
 			}
 		}
@@ -100,7 +99,6 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 
 	private void gameFinished() {
 		String reportString = report.buildReport();
-		log.debug("gameFinished()   report={}", reportString);
 		reportListener.onGameEvent(new GameReportEvent(reportString));
 		quiteCommandListener.onGameEvent(new BaseEvent(EventType.QUIT_COMMAND));
 	}
@@ -114,8 +112,10 @@ public class GameModel<W extends IWeapon> implements IGameModel {
 	public void stop() {
 		isRunning = false;
 		reportListener.onGameEvent(new GameReportEvent(report.buildReport()));
-		latch.countDown();
-		latch.countDown();
+		if (latch != null) {
+			latch.countDown();
+			latch.countDown();
+		}
 	}
 
 	@Override

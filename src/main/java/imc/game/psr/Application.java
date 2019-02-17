@@ -41,9 +41,9 @@ public class Application implements IGameEventListener {
 	 * 
 	 * @param args the application arguments
 	 */
-	public Application() {
+	public Application(String[] args) {
 		context = new ApplicationContext();
-		context.buildGameConfig("game.properties");
+		context.processCommandLine(args);
 
 		config = context.getGameConfig();
 		inputOutput = new InputOutput(config, this);
@@ -77,7 +77,7 @@ public class Application implements IGameEventListener {
 
 	public static void main(String[] args) {
 		try {
-			Application app = new Application();
+			Application app = new Application(args);
 			app.start();
 			log.info("Application finished.");
 		} catch (RuntimeException e) {

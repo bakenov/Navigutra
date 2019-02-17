@@ -30,6 +30,9 @@ public enum DistanceUnits {
 		}
 	},
 
+	/**
+	 * Distance unit representing one hundredth of a meter
+	 */
 	CENTIMETER("sm") {
 		public double toMillimeters(double d) {
 			return d * C1;
@@ -47,6 +50,10 @@ public enum DistanceUnits {
 			return u.toCentimeters(d);
 		}
 	},
+
+	/**
+	 * The meter distance unit
+	 */
 	METER("m") {
 		public double toMillimeters(double d) {
 			return d * C3;

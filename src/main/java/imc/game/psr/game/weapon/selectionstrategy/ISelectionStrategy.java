@@ -1,11 +1,16 @@
 package imc.game.psr.game.weapon.selectionstrategy;
 
-import java.util.function.Consumer;
+/**
+ * The contract for the weapon selection strategy
+ * 
+ * @author bakenov
+ *
+ */
+public interface ISelectionStrategy {
 
-import imc.game.psr.game.weapon.IWeapon;
-
-public interface ISelectionStrategy<W extends IWeapon> {
-
-	void select(Consumer<W> consumer);
+	/**
+	 * The request to select new weapon
+	 */
+	void selectNewWeapon();
 
 }

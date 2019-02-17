@@ -2,10 +2,15 @@ package imc.game.psr.input;
 
 import java.io.PrintStream;
 import java.util.Scanner;
-import java.util.function.Supplier;
 
 import imc.game.psr.game.config.IGameConfig;
-import imc.game.psr.game.report.IReport;
+import imc.game.psr.game.model.event.BaseEvent;
+import imc.game.psr.game.model.event.EventType;
+import imc.game.psr.game.model.event.GameReportEvent;
+import imc.game.psr.game.model.event.IGameEvent;
+import imc.game.psr.game.model.event.IGameEventListener;
+import imc.game.psr.game.model.event.TakeInputEvent;
+import imc.game.psr.game.model.event.WeaponSelectedEvent;
 
 /**
  * Input IO component responsible for the receiving the messages from the user
@@ -13,14 +18,20 @@ import imc.game.psr.game.report.IReport;
  * @author bakenov
  *
  */
-public class InputOutput implements IInputOutput {
+public class InputOutput implements IInputOutput, Runnable {
+
+	private static final String INVALID_WEAPON = "Invalid symbol for a weapon";
 
 	private Scanner scan;
-	private boolean isRunning;
-	private IMessageListener messageListener;
-	private final String welcomeMessage;
+	private volatile boolean isRunning;
+	private final IGameEventListener quiteCommandListener;
+	private final InputValidator inputValidator;
+	private final String selectWeaponMessage;
+	private final char quitCommand;
 	private final PrintStream out;
-	private final Supplier<IReport> provider;
+	private Thread inputThread;
+
+	private TakeInputEvent currentTakeInputEvent;
 
 	/**
 	 * Constructor for Input IO component
@@ -30,10 +41,13 @@ public class InputOutput implements IInputOutput {
 	 * @param out         the output IO component
 	 * @param config      an IO configuration component
 	 */
-	public InputOutput(IGameConfig config, Supplier<IReport> provider) {
-		this.welcomeMessage = config.getConsoleMessage();
-		this.provider = provider;
+	public InputOutput(IGameConfig config,
+			IGameEventListener quiteCommandListener) {
+		this.selectWeaponMessage = config.getConsoleMessage();
+		this.quitCommand = config.getQuitCommand();
+		this.quiteCommandListener = quiteCommandListener;
 		this.out = System.out;
+		this.inputValidator = new InputValidator(config);
 	}
 
 	@Override
@@ -41,15 +55,14 @@ public class InputOutput implements IInputOutput {
 		if (isRunning)
 			return;
 		isRunning = true;
-		run();
+		inputThread = new Thread(this);
+		inputThread.start();
 	}
 
-	private void stop() {
+	public void stop() {
 		if (isRunning) {
 			isRunning = false;
 			scan.close();
-			IReport report = provider.get();
-			displayConsoleMessage(report.toString());
 		}
 	}
 
@@ -57,33 +70,59 @@ public class InputOutput implements IInputOutput {
 	 * A run method that processes the user's input instructions and blocks the
 	 * current thread while waiting the user input.
 	 */
-	private void run() {
+	public void run() {
 		scan = new Scanner(System.in);
 		String command = new String();
 		while (isRunning) {
-			displayConsoleMessage(welcomeMessage);
 			command = scan.nextLine();
 			processCommand(command);
 		}
 	}
 
-	@Override
-	public void setMessageListener(IMessageListener messageListener) {
-		this.messageListener = messageListener;
-	}
-
 	private void processCommand(String input) {
-		if (input.length() > 1) {
-			// wrong command
-			displayConsoleMessage(welcomeMessage);
+		if (input.length() == 1) {
+			char c = input.charAt(0);
+			if (c == quitCommand) {
+				quiteCommandListener.onGameEvent(new BaseEvent(EventType.QUIT_COMMAND));
+			} else {
+				if (inputValidator.isSelectionValid(c)
+						&& currentTakeInputEvent != null) {
+					WeaponSelectedEvent event = new WeaponSelectedEvent(
+							currentTakeInputEvent.getPlayerName(), c);
+					currentTakeInputEvent.getSelectionListener().onGameEvent(event);
+					currentTakeInputEvent = null;
+				} else {
+					displayConsoleMessage(INVALID_WEAPON);
+				}
+			}
 		} else {
-			char command = input.charAt(0);
-			messageListener.onCommand(command);
+			// wrong command
+			displaySelectMessage();
 		}
 	}
 
-	public void displayConsoleMessage(String message) {
+	private void displayConsoleMessage(String message) {
 		out.println(message);
+	}
+
+	private void displaySelectMessage() {
+		out.println(selectWeaponMessage);
+	}
+
+	@Override
+	public void onGameEvent(IGameEvent event) {
+		if (currentTakeInputEvent != null)
+			// ignore the request
+			return;
+
+		if (event.getType() == EventType.GET_INPUT) {
+			currentTakeInputEvent = (TakeInputEvent) event;
+			displaySelectMessage();
+		} else if (event.getType() == EventType.REPORT) {
+			GameReportEvent report = (GameReportEvent) event;
+			displayConsoleMessage(report.getReport());
+		}
+
 	}
 
 }

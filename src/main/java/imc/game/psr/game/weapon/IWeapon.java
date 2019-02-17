@@ -16,4 +16,11 @@ public interface IWeapon {
 	 * @return the result of the strength comparison between the weapons
 	 */
 	StrengthType getStrengthAgainst(IWeapon other);
+
+	/**
+	 * Returns the weapon enum
+	 * 
+	 * @return the weapon enum
+	 */
+	Weapon getWeapon();
 }

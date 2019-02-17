@@ -1,9 +1,10 @@
 package imc.game.psr.game.weapon.selectionstrategy;
 
 import java.util.Random;
-import java.util.function.Consumer;
 
-import imc.game.psr.game.weapon.IWeapon;
+import imc.game.psr.game.model.event.IGameEventListener;
+import imc.game.psr.game.model.event.WeaponSelectedEvent;
+import it.unimi.dsi.fastutil.chars.CharSet;
 
 /**
  * The Random selection strategy selects randomly the weapon from list of the
@@ -13,26 +14,32 @@ import imc.game.psr.game.weapon.IWeapon;
  *
  * @param <W> a type of the selection
  */
-public class RandomSelectionStrategy<W extends IWeapon>
-		implements ISelectionStrategy<W> {
+public class RandomSelectionStrategy implements ISelectionStrategy {
 
-	private final W[] options;
+	private final char[] options;
 	private final Random rand;
+	private final String playerName;
+	private final IGameEventListener selectionWeaponListener;
 
 	/**
 	 * Constructor for the selection strategy
 	 * 
 	 * @param options the list of all available weapons
 	 */
-	public RandomSelectionStrategy(W[] options) {
-		this.options = options;
+	public RandomSelectionStrategy(String playerName, CharSet weaponSymbolSet,
+			IGameEventListener selectionWeaponListener) {
+		this.playerName = playerName;
+		this.options = weaponSymbolSet.toCharArray();
+		this.selectionWeaponListener = selectionWeaponListener;
 		rand = new Random();
 	}
 
 	@Override
-	public void select(Consumer<W> consumer) {
+	public void selectNewWeapon() {
 		int selection = rand.nextInt(options.length);
-		consumer.accept(options[selection]);
+		WeaponSelectedEvent event = new WeaponSelectedEvent(playerName,
+				options[selection]);
+		selectionWeaponListener.onGameEvent(event);
 	}
 
 }

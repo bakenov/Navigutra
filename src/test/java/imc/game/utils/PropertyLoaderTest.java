@@ -3,6 +3,7 @@ package imc.game.utils;
 import static imc.game.psr.game.config.Parameters.MESSAGE;
 import static imc.game.psr.game.config.Parameters.WEAPONS;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Properties;
 
@@ -22,7 +23,13 @@ public class PropertyLoaderTest {
 				.loadProperties("testGame.properties");
 		assertEquals("Test message",
 				properties.getProperty(MESSAGE.getQualifiedName()));
-		assertEquals("'P:paper,R:rock,S:scissors'",
+		assertEquals("P:paper,R:rock,S:scissors",
 				properties.getProperty(WEAPONS.getQualifiedName()));
+	}
+
+	@Test
+	public void testLoadInvalidFile() {
+		Properties properties = PropertyLoader.loadProperties("sss.properties");
+		assertNull(properties);
 	}
 }

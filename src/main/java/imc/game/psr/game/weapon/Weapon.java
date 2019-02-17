@@ -70,6 +70,11 @@ public enum Weapon implements IWeapon {
 		this.code = code;
 	}
 
+	@Override
+	public Weapon getWeapon() {
+		return this;
+	}
+
 	/**
 	 * Equivalent to {@link #convert(double, DistanceUnits) MILLIMETER.convert(d,
 	 * this)}.

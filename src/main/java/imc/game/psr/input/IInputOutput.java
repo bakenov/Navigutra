@@ -1,22 +1,22 @@
 package imc.game.psr.input;
 
+import imc.game.psr.game.model.event.IGameEventListener;
+
 /**
  * The contract for the IO component.
  * 
  * @author bakenov
  *
  */
-public interface IInputOutput {
+public interface IInputOutput extends IGameEventListener {
 
 	/**
-	 * Sets input data listener
-	 * 
-	 * @param listener a input data listener
-	 */
-	void setMessageListener(IMessageListener listener);
-
-	/**
-	 * starts IO module and all its components
+	 * starts the IO component
 	 */
 	void start();
+
+	/**
+	 * stops the IO component
+	 */
+	void stop();
 }

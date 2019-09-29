@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9f8118b-b931-4b0c-8da8-724eeed4122b" name="Default Changelist" comment="" />
+    <list default="true" id="a9f8118b-b931-4b0c-8da8-724eeed4122b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/test/resources/liquidity-gateway.zip" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />

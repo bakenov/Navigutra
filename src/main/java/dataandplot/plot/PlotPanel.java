@@ -40,12 +40,14 @@ public class PlotPanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                FloatDataPoint data = converter.pixelToPhysical(e.getX(), e.getY());
-                converter.physicalToPixelX(data.x());
-                IO.println("PlotPanel  click on Pixel: [" + e.getX() + ", " + e.getY() + "] --> [" +
-                        formatNum(data.x()) + ", " + formatNum(data.y()) + "] --> [" +
-                        converter.physicalToPixelX(data.x()) + ", " +
-                        converter.physicalToPixelY(data.y()) + "]");
+                if (displayData) {
+                    FloatDataPoint data = converter.pixelToPhysical(e.getX(), e.getY());
+                    converter.physicalToPixelX(data.x());
+                    IO.println("PlotPanel  click on Pixel: [" + e.getX() + ", " + e.getY() + "] --> [" +
+                            formatNum(data.x()) + ", " + formatNum(data.y()) + "] --> [" +
+                            converter.physicalToPixelX(data.x()) + ", " +
+                            converter.physicalToPixelY(data.y()) + "]");
+                }
             }
         });
         addComponentListener(new ComponentAdapter() {

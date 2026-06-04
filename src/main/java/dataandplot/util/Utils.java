@@ -2,6 +2,8 @@ package dataandplot.util;
 
 import dataandplot.PlotExample;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -26,4 +28,15 @@ public class Utils {
         }
         return properties;
     }
+
+    public static Properties loadProperties(final File file) {
+        Properties properties = new Properties();
+        try (InputStream input = new FileInputStream(file)) {
+            properties.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return properties;
+    }
+
 }

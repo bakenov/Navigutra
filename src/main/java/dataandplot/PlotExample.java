@@ -31,14 +31,14 @@ public class PlotExample {
         ui = new UiContainer(configManager, dataProvider);
     }
 
-    private void setUiVisible() {
+    private void showFrame() {
         ui.showFrame();
     }
 
     void main() {
         SwingUtilities.invokeLater(() -> {
             PlotExample app = new PlotExample();
-            app.setUiVisible();
+            app.showFrame();
         });
     }
 }

@@ -4,6 +4,9 @@ package dataandplot.config;
 import dataandplot.plot.Insets;
 
 import java.awt.*;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Properties;
 
 import static dataandplot.util.Utils.loadProperties;
@@ -12,9 +15,11 @@ public class ConfigManagerImpl implements ConfigManager {
 
     private final Properties uiConfig;
     private Properties dataConfig;
+    private final File configDir;
 
     public ConfigManagerImpl() {
-        uiConfig = loadProperties("configUi.properties");
+        uiConfig = loadProperties(APP_CONFIG_FILE_NAME);
+        configDir = buildConfigDir();
     }
 
     @Override
@@ -38,16 +43,34 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     @Override
-    public boolean setDataConfigFile(String dataConfigFile) {
-        if (dataConfigFile == null) {
-            return false;
-        }
-        dataConfig = loadProperties(dataConfigFile);
-        return dataConfig != null;
+    public File getConfigDir() {
+        return configDir;
     }
 
     @Override
-    public Properties getDataConfig() {
+    public void dataConfigFileChanged(File newDataConfigFile) {
+        IO.println("ConfigManagerImpl.dataConfigFileChanged()   newDataConfigFile=" + newDataConfigFile);
+        if (newDataConfigFile != null) {
+            dataConfig = loadProperties(newDataConfigFile);
+            IO.println("ConfigManagerImpl.dataConfigFileChanged()   dataConfig=" + dataConfig);
+        }
+    }
+
+    @Override
+    public Properties getDataConfiguration() {
         return dataConfig;
+    }
+
+    private File buildConfigDir() {
+        URL resourceUrl = getClass().getClassLoader().getResource(APP_CONFIG_DIR_NAME);
+        if (resourceUrl != null) {
+            // Convert URL to a standard File object
+            try {
+                return new File(resourceUrl.toURI());
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        throw new RuntimeException("No config dir in application's resource folder");
     }
 }

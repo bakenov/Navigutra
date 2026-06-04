@@ -48,15 +48,13 @@ public class DataProviderImpl implements DataProvider {
 //        dataToPixelConverter = new PixelConverterImpl(range);
 //    }
 
-    public void buildData() {
-        Properties config = configManager.getDataConfig();
- //       Properties config = loadProperties("configSineLineNoise.properties");
-        if(config == null)
+    public void buildData(final Properties dataConfig) {
+        if(dataConfig == null)
             return;
         DataProviderBuilder dataBuilder = new DataProviderBuilderImpl();
-        GeneratorInfo dataInfo = new GeneratorInfo(config);
-        IO.println("PlotExample()   dataInfo:" + dataInfo);
-        dataBuilder.build(dataInfo, config);
+//        GeneratorInfo dataInfo = new GeneratorInfo(config);
+//        IO.println("PlotExample()   dataInfo:" + dataInfo);
+//        dataBuilder.build(dataInfo, config);
         //DataProvider dataProvider = dataBuilder.build(dataInfo, config);
     }
 

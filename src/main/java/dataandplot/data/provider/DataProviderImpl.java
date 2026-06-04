@@ -1,9 +1,12 @@
 package dataandplot.data.provider;
 
+import dataandplot.config.ConfigManager;
 import dataandplot.data.generator.config.GeneratorInfo;
 import dataandplot.data.generator.step.FunctionStepDataGenerator;
 import dataandplot.data.holder.DataHolderFloat;
 import dataandplot.data.holder.FloatDataPoint;
+import dataandplot.data.provider.builder.DataProviderBuilder;
+import dataandplot.data.provider.builder.DataProviderBuilderImpl;
 import dataandplot.plot.converter.PixelConverter;
 import dataandplot.plot.converter.PixelConverterImpl;
 import dataandplot.util.DataRangeFloat;
@@ -11,24 +14,50 @@ import dataandplot.util.DataRangeFloat;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Properties;
+
+import static dataandplot.util.Utils.loadProperties;
 
 public class DataProviderImpl implements DataProvider {
-    private final GeneratorInfo generatorInfo;
-    private final DataHolderFloat dataHolder;
-    private final FunctionStepDataGenerator stepDataGenerator;
+
+    private final ConfigManager configManager;
     private final PixelConverter dataToPixelConverter;
+    private String dataConfigFile;
+
+    private GeneratorInfo generatorInfo;
+    private DataHolderFloat dataHolder;
+    private FunctionStepDataGenerator stepDataGenerator;
+
     private Path2D.Float convertedPath;
     private boolean updatePath = true;
 
-    public DataProviderImpl(final GeneratorInfo generatorInfo,
-                            final FunctionStepDataGenerator stepDataGenerator,
-                            final DataHolderFloat dataHolder) {
-        this.generatorInfo = generatorInfo;
-        this.stepDataGenerator = stepDataGenerator;
-        this.dataHolder = dataHolder;
-        generateData();
-        DataRangeFloat range = dataHolder.getDataRange();
-        dataToPixelConverter = new PixelConverterImpl(range);
+    public DataProviderImpl(final ConfigManager configManager) {
+        this.configManager = configManager;
+        dataToPixelConverter = new PixelConverterImpl(configManager);
+    }
+
+
+//    public DataProviderImpl(final GeneratorInfo generatorInfo,
+//                            final FunctionStepDataGenerator stepDataGenerator,
+//                            final DataHolderFloat dataHolder) {
+//        this.generatorInfo = generatorInfo;
+//        this.stepDataGenerator = stepDataGenerator;
+//        this.dataHolder = dataHolder;
+//        generateData();
+//        DataRangeFloat range = dataHolder.getDataRange();
+//        dataToPixelConverter = new PixelConverterImpl(range);
+//    }
+
+    public void buildData() {
+        Properties config = configManager.getDataConfig();
+ //       Properties config = loadProperties("configSineLineNoise.properties");
+        if(config == null)
+            return;
+        DataProviderBuilder dataBuilder = new DataProviderBuilderImpl();
+        GeneratorInfo dataInfo = new GeneratorInfo(config);
+        IO.println("PlotExample()   dataInfo:" + dataInfo);
+        dataBuilder.build(dataInfo, config);
+        //DataProvider dataProvider = dataBuilder.build(dataInfo, config);
     }
 
     public void setPlotBounds(Rectangle2D plotBounds) {

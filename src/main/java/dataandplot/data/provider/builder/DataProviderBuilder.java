@@ -6,5 +6,5 @@ import dataandplot.data.provider.DataProvider;
 import java.util.Properties;
 
 public interface DataProviderBuilder {
-    DataProvider build(final GeneratorInfo generatorInfo, final Properties config);
+    void build(final GeneratorInfo generatorInfo, final Properties config);
 }

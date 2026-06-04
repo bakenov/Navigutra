@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 public interface PixelConverter {
 
     void setPlotBounds(Rectangle2D plotBounds);
-    void setInsets(Insets boundary);
     DataRangeFloat getPhysicalRange();
     DataRangeFloat getPixelRange();
     int physicalToPixelX(double x);

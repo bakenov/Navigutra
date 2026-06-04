@@ -1,60 +1,44 @@
 package dataandplot;
 
+import dataandplot.config.ConfigManager;
+import dataandplot.config.ConfigManagerImpl;
 import dataandplot.data.generator.config.*;
 import dataandplot.data.provider.DataProvider;
-import dataandplot.data.provider.builder.DataProviderBuilder;
-import dataandplot.data.provider.builder.DataProviderBuilderImpl;
-import dataandplot.plot.PlotPanel;
+import dataandplot.data.provider.DataProviderImpl;
+import dataandplot.plot.UiContainer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Properties;
 
-import static dataandplot.util.Utils.loadProperties;
+// organisation of the data:
+// 1. configuration
+// 2. generation
+// 3. graph configuration
+// 4. plugin data to graph
+public class PlotExample {
 
-public class PlotExample extends JFrame {
+    private final ConfigManager configManager;
+    private final DataProvider dataProvider;
+    private final UiContainer ui;
 
     public PlotExample() {
 
-        // organisation of the data:
-        // 1. configuration
-        // 2. generation
-        // 3. graph configuration
-        // 4. plugin data to graph
-
-        Properties config = loadProperties("configSineLineNoise.properties");
-        if(config == null)
-            return;
-        DataProviderBuilder dataBuilder = new DataProviderBuilderImpl();
-        GeneratorInfo dataInfo = new GeneratorInfo(config);
-        IO.println("PlotExample()   dataInfo:" + dataInfo);
-        DataProvider dataProvider = dataBuilder.build(dataInfo, config);
-        // 1. Create the content panel
-        JPanel contentPanel = createParentPanel();
-        // 2. Create the plot panel
-        PlotPanel plotPanel = new PlotPanel(dataProvider);
-        contentPanel.add(plotPanel, BorderLayout.CENTER);
-        add(contentPanel);
-        setSize(500, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        // 1. Data experiment configuration
+        configManager = new ConfigManagerImpl();
+        // 2. Build Data provider
+        dataProvider = new DataProviderImpl(configManager);
+        // 3. Build UI container
+        ui = new UiContainer(configManager, dataProvider);
     }
 
-    private JPanel createParentPanel() {
-        // 1. Create the parent panel
-        JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(Color.LIGHT_GRAY);
-        contentPanel.setLayout(new BorderLayout());
-        // 2. Define the insets/padding (Top, Left, Bottom, Right) in pixels
-        int top = 10, left = 10, bottom = 10, right = 10;
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));
-        return contentPanel;
+    private void setUiVisible() {
+        ui.showFrame();
     }
 
     void main() {
         SwingUtilities.invokeLater(() -> {
             PlotExample app = new PlotExample();
-            app.setVisible(true);
+            app.setUiVisible();
         });
     }
 }

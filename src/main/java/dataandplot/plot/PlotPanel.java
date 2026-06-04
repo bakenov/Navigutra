@@ -1,5 +1,6 @@
 package dataandplot.plot;
 
+import dataandplot.config.ConfigManager;
 import dataandplot.data.holder.FloatDataPoint;
 import dataandplot.data.provider.DataProvider;
 import dataandplot.plot.axis.AxisX;
@@ -18,21 +19,22 @@ import java.awt.geom.Path2D;
 import static dataandplot.util.Utils.formatNum;
 
 public class PlotPanel extends JPanel {
-    private final DataRangeFloat range;
-    private final Insets boundary = new Insets();
-    private final PixelConverter converter;
-    private final DataProvider dataProvider;
-    private final AxisX axisX;
-    private final AxisY axisY;
 
-    public PlotPanel(final DataProvider dataProvider) {
+    private final ConfigManager configManager;
+    private final DataProvider dataProvider;
+    private final Insets boundary;
+
+    private DataRangeFloat range;
+    private PixelConverter converter;
+    private AxisX axisX;
+    private AxisY axisY;
+    private volatile boolean displayData;
+
+    public PlotPanel(final ConfigManager configManager, final DataProvider dataProvider) {
+        this.configManager = configManager;
         this.dataProvider = dataProvider;
-        this.converter = dataProvider.getDataToPixelConverter();
-        this.range = converter.getPhysicalRange();
-        axisX = new AxisX(converter);
-        axisY = new AxisY(converter);
-        IO.println("PlotPanel()   range:" + range);
-        converter.setInsets(boundary);
+        this.boundary = configManager.getInsets();
+
         setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         addMouseListener(new MouseAdapter() {
@@ -49,18 +51,34 @@ public class PlotPanel extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                dataProvider.setPlotBounds(e.getComponent().getBounds());
+                if (displayData) {
+                    dataProvider.setPlotBounds(e.getComponent().getBounds());
 //                IO.println("PlotPanel  new Bounds: " + e.getComponent().getBounds());
+                }
             }
         });
+    }
+
+    public void showData() {
+        displayData = true;
+//        this.converter = dataProvider.getDataToPixelConverter();
+//        this.range = converter.getPhysicalRange();
+        axisX = new AxisX(converter);
+        axisY = new AxisY(converter);
+//        IO.println("PlotPanel.showData()   range:" + range);
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if (displayData) {
+            paintPlot((Graphics2D) g);
+        }
+    }
 
+    private void paintPlot(Graphics2D g2) {
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         // Draw Axes
         g2.setColor(Color.BLACK);
         axisX.paintAxis(g2);

@@ -1,5 +1,7 @@
 package dataandplot.plot;
 
+import dataandplot.config.ConfigManager;
+
 public record Insets(int left, int right, int top, int bottom) {
 
     public Insets() {

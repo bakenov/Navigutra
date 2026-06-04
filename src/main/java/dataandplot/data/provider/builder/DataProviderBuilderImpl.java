@@ -25,7 +25,7 @@ public class DataProviderBuilderImpl implements DataProviderBuilder {
     }
 
     @Override
-    public DataProvider build(final GeneratorInfo generatorInfo, final Properties config) {
+    public void build(final GeneratorInfo generatorInfo, final Properties config) {
         FunctionInfo functionInfo1, functionInfo2;
         FunctionStepDataGenerator stepDataGenerator = null;
         DataHolderFloat dataHolder = new DataHolderFloatImpl(generatorInfo);
@@ -58,6 +58,6 @@ public class DataProviderBuilderImpl implements DataProviderBuilder {
                 FunctionInfo functionInfo3 = functionInfoBuilder.buildFunctionInfo(NOISE, config);
                 stepDataGenerator = stepDataGeneratorBuilder.buildStepGenerator(generatorInfo, functionInfo1, functionInfo2, functionInfo3);
         }
-        return new DataProviderImpl(generatorInfo, stepDataGenerator, dataHolder);
+//        return new DataProviderImpl(generatorInfo, stepDataGenerator, dataHolder);
     }
 }

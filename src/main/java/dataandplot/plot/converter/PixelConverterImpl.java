@@ -10,16 +10,16 @@ import java.awt.geom.Rectangle2D;
 public class PixelConverterImpl implements PixelConverter {
 
     private Rectangle2D plotBounds;
-    private Insets plotInsets;
+    private final Insets plotInsets;
     private DataRangeFloat physicalRange;
     private final DataRangeFloat pixelRange;
     // cached values
     private double plotWidth;
     private double plotHeight;
 
-    public PixelConverterImpl(final ConfigManager configManager) {
-        pixelRange = new DataRangeFloat();
-        plotInsets = configManager.getInsets();
+    public PixelConverterImpl(final Insets plotInsets) {
+        this.pixelRange = new DataRangeFloat();
+        this.plotInsets = plotInsets;
     }
 
     public void setDataRange(final DataRangeFloat range) {

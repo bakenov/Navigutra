@@ -1,10 +1,10 @@
 package dataandplot.data.generator;
 
-import dataandplot.data.generator.config.GeneratorInfo;
+import dataandplot.config.DataConfig;
 import dataandplot.util.DataRangeFloat;
 
 public interface DataGenerator {
-    GeneratorInfo generatorInfo();
+    DataConfig generatorInfo();
     void generateData();
     DataRangeFloat getDataRange();
 }

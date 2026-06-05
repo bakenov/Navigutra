@@ -1,9 +1,6 @@
 package dataandplot.config;
 
 
-import dataandplot.plot.Insets;
-
-import java.awt.*;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -13,33 +10,24 @@ import static dataandplot.util.Utils.loadProperties;
 
 public class ConfigManagerImpl implements ConfigManager {
 
-    private final Properties uiConfig;
-    private Properties dataConfig;
+    private final UIConfig uiConfig;
     private final File configDir;
+    private DataConfig dataConfig;
+    private String processedDataFile;
 
     public ConfigManagerImpl() {
-        uiConfig = loadProperties(APP_CONFIG_FILE_NAME);
+        uiConfig = new UIConfig(loadProperties(APP_CONFIG_FILE_NAME));
+        configDir = buildConfigDir();
+    }
+
+    public ConfigManagerImpl(ClassLoader classLoader) {
+        uiConfig = new UIConfig(loadProperties(APP_CONFIG_FILE_NAME, classLoader));
         configDir = buildConfigDir();
     }
 
     @Override
-    public String getTitle() {
-        return uiConfig.getProperty("app.name");
-    }
-
-    @Override
-    public Dimension getFrameSize() {
-        int width = Integer.parseInt(uiConfig.getProperty("app.frame.width"));
-        int height = Integer.parseInt(uiConfig.getProperty("app.frame.height"));
-        return new Dimension(width, height);
-    }
-
-    @Override
-    public Insets getInsets() {
-        return new Insets(Integer.parseInt(uiConfig.getProperty("app.plot.insets.left")),
-                Integer.parseInt(uiConfig.getProperty("app.plot.insets.right")),
-                Integer.parseInt(uiConfig.getProperty("app.plot.insets.top")),
-                Integer.parseInt(uiConfig.getProperty("app.plot.insets.bottom")));
+    public UIConfig getUIConfig() {
+        return uiConfig;
     }
 
     @Override
@@ -48,23 +36,26 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     @Override
-    public void dataConfigFileChanged(File newDataConfigFile) {
-        IO.println("ConfigManagerImpl.dataConfigFileChanged()   newDataConfigFile=" + newDataConfigFile);
-        if (newDataConfigFile != null) {
-            dataConfig = loadProperties(newDataConfigFile);
+    public boolean dataConfigFileChanged(File newDataConfigFile) {
+        if (newDataConfigFile != null && (processedDataFile == null || ! processedDataFile.equals(newDataConfigFile.getAbsolutePath()))) {
+            Properties dataProperties = loadProperties(newDataConfigFile);
+            dataConfig = new DataConfigImpl(dataProperties);
             IO.println("ConfigManagerImpl.dataConfigFileChanged()   dataConfig=" + dataConfig);
+            processedDataFile = newDataConfigFile.getAbsolutePath();
+            IO.println("ConfigManagerImpl.dataConfigFileChanged()   processedDataFile=" + processedDataFile);
+            return true;
         }
+        return false;
     }
 
     @Override
-    public Properties getDataConfiguration() {
+    public DataConfig getDataConfig() {
         return dataConfig;
     }
 
     private File buildConfigDir() {
         URL resourceUrl = getClass().getClassLoader().getResource(APP_CONFIG_DIR_NAME);
         if (resourceUrl != null) {
-            // Convert URL to a standard File object
             try {
                 return new File(resourceUrl.toURI());
             } catch (URISyntaxException e) {

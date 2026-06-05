@@ -1,40 +1,39 @@
 package dataandplot.data.provider;
 
 import dataandplot.config.ConfigManager;
-import dataandplot.data.generator.config.GeneratorInfo;
-import dataandplot.data.generator.step.FunctionStepDataGenerator;
+import dataandplot.config.DataConfig;
+import dataandplot.data.generator.step.StepDataGenerator;
 import dataandplot.data.holder.DataHolderFloat;
 import dataandplot.data.holder.FloatDataPoint;
 import dataandplot.data.provider.builder.DataProviderBuilder;
 import dataandplot.data.provider.builder.DataProviderBuilderImpl;
 import dataandplot.plot.converter.PixelConverter;
 import dataandplot.plot.converter.PixelConverterImpl;
-import dataandplot.util.DataRangeFloat;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Properties;
 
-import static dataandplot.util.Utils.loadProperties;
-
-public class DataProviderImpl implements DataProvider {
+public class AbstractDataProvider implements DataProvider {
 
     private final ConfigManager configManager;
     private final PixelConverter dataToPixelConverter;
     private String dataConfigFile;
 
-    private GeneratorInfo generatorInfo;
+    private DataConfig generatorInfo;
     private DataHolderFloat dataHolder;
-    private FunctionStepDataGenerator stepDataGenerator;
+    private StepDataGenerator stepDataGenerator;
 
     private Path2D.Float convertedPath;
     private boolean updatePath = true;
 
-    public DataProviderImpl(final ConfigManager configManager) {
+    public AbstractDataProvider(final ConfigManager configManager) {
         this.configManager = configManager;
-        dataToPixelConverter = new PixelConverterImpl(configManager);
+        dataToPixelConverter = new PixelConverterImpl(configManager.getUIConfig().plotInsets());
     }
+
+
 
 
 //    public DataProviderImpl(final GeneratorInfo generatorInfo,
@@ -47,6 +46,21 @@ public class DataProviderImpl implements DataProvider {
 //        DataRangeFloat range = dataHolder.getDataRange();
 //        dataToPixelConverter = new PixelConverterImpl(range);
 //    }
+
+    @Override
+    public void buildData() {
+
+    }
+
+    private void generateData() {
+        int numSamples = generatorInfo.getSize();
+        for (int i = 0; i < numSamples; i++) {
+//            double value = stepDataGenerator.generate(i * generatorInfo.getStepMultiplicator());
+//            dataHolder.setData(i, (float) value);
+        }
+        dataHolder.closeDataPath();
+    }
+
 
     public void buildData(final Properties dataConfig) {
         if(dataConfig == null)
@@ -99,13 +113,5 @@ public class DataProviderImpl implements DataProvider {
         convertedPath.moveTo(pixelX, pixelY);
     }
 
-    private void generateData() {
-        int numSamples = generatorInfo.size();
-        for (int i = 0; i < numSamples; i++) {
-            double value = stepDataGenerator.generate(i * generatorInfo.stepMultiplicator());
-            dataHolder.setData(i, (float) value);
-        }
-        dataHolder.closeDataPath();
-    }
 
 }

@@ -15,16 +15,19 @@ public class Utils {
     }
 
     public static Properties loadProperties(String fileName) {
+        return loadProperties(fileName, Utils.class.getClassLoader());
+    }
+
+    public static Properties loadProperties(String fileName, ClassLoader classLoader) {
         Properties properties = new Properties();
-        try (InputStream input = PlotExample.class.getClassLoader().getResourceAsStream(fileName)) {
+        try (InputStream input = classLoader.getResourceAsStream(fileName)) {
             if (input == null) {
-                IO.println("unable to find configSine.properties");
-                return null;
+                throw new RuntimeException("Unable to find configuration file:" + fileName);
             }
             // Load the properties file
             properties.load(input);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex.getMessage());
         }
         return properties;
     }
@@ -34,7 +37,7 @@ public class Utils {
         try (InputStream input = new FileInputStream(file)) {
             properties.load(input);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex.getMessage());
         }
         return properties;
     }

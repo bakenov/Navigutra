@@ -1,6 +1,8 @@
 package dataandplot.plot;
 
 import dataandplot.config.ConfigManager;
+import dataandplot.config.DataConfig;
+import dataandplot.config.UIConfig;
 import dataandplot.data.provider.DataProvider;
 
 import javax.swing.*;
@@ -24,19 +26,18 @@ public class UiContainer {
         this.configManager = configManager;
         this.dataProvider = dataProvider;
         // 2. build frame
-        this.frame = new JFrame(configManager.getTitle());
+        UIConfig uiConfig = configManager.getUIConfig();
+        this.frame = new JFrame(uiConfig.name());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setSize(configManager.getFrameSize());
+        this.frame.setSize(uiConfig.dimension());
 
         // 1. Create the menu
         frame.setJMenuBar(buildMenu());
         // 2. Create the content panel
-        JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(Color.LIGHT_GRAY);
-//        JPanel contentPanel = createParentPanel();
-//        // 3. Create the plot panel
-//        PlotPanel plotPanel = new PlotPanel(configManager, dataProvider);
-//        contentPanel.add(plotPanel, BorderLayout.CENTER);
+        JPanel contentPanel = createParentPanel();
+        // 3. Create the plot panel
+        PlotPanel plotPanel = new PlotPanel(uiConfig.plotInsets(), dataProvider);
+        contentPanel.add(plotPanel, BorderLayout.CENTER);
         frame.add(contentPanel);
     }
 
@@ -68,10 +69,11 @@ public class UiContainer {
                             file = fileChooser.getSelectedFile();
                         }
                         if (file != null) {
-                            configManager.dataConfigFileChanged(file);
+                            dataConfigFileChanged(file);
                         }
                         break;
                     case BUILD_MENU_ITEM_NAME:
+                        dataProvider.buildData();
                         break;
                     case BUILD_PLOT_MENU_ITEM_NAME:
                         break;
@@ -80,8 +82,6 @@ public class UiContainer {
         });
         return menuItem;
     }
-
-
 
     private JPanel createParentPanel() {
         // 1. Create the parent panel
@@ -97,5 +97,13 @@ public class UiContainer {
     public void showFrame() {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void dataConfigFileChanged(File newDataConfigFile) {
+        if (configManager.dataConfigFileChanged(newDataConfigFile)) {
+            DataConfig dataConfig = configManager.getDataConfig();
+            frame.setTitle(dataConfig.getTitle());
+        }
+        //dataProvider.setPlotBounds();
     }
 }

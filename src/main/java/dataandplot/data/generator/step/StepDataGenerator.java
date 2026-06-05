@@ -1,8 +1,5 @@
 package dataandplot.data.generator.step;
 
-import dataandplot.data.generator.config.GeneratorInfo;
-
+// mark interface
 public interface StepDataGenerator {
-    GeneratorInfo generatorInfo();
-    double generate(int step);
 }

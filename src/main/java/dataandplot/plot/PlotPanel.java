@@ -1,6 +1,5 @@
 package dataandplot.plot;
 
-import dataandplot.config.ConfigManager;
 import dataandplot.data.holder.FloatDataPoint;
 import dataandplot.data.provider.DataProvider;
 import dataandplot.plot.axis.AxisX;
@@ -20,9 +19,8 @@ import static dataandplot.util.Utils.formatNum;
 
 public class PlotPanel extends JPanel {
 
-    private final ConfigManager configManager;
     private final DataProvider dataProvider;
-    private final Insets boundary;
+    private final Insets plotInsets;
 
     private DataRangeFloat range;
     private PixelConverter converter;
@@ -30,10 +28,9 @@ public class PlotPanel extends JPanel {
     private AxisY axisY;
     private volatile boolean displayData;
 
-    public PlotPanel(final ConfigManager configManager, final DataProvider dataProvider) {
-        this.configManager = configManager;
+    public PlotPanel(final Insets plotInsets, final DataProvider dataProvider) {
+        this.plotInsets = plotInsets;
         this.dataProvider = dataProvider;
-        this.boundary = configManager.getInsets();
 
         setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));

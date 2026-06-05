@@ -1,10 +1,9 @@
 package dataandplot.data.provider.builder;
 
-import dataandplot.data.generator.config.GeneratorInfo;
-import dataandplot.data.provider.DataProvider;
+import dataandplot.config.DataConfig;
 
 import java.util.Properties;
 
 public interface DataProviderBuilder {
-    void build(final GeneratorInfo generatorInfo, final Properties config);
+    void build(final DataConfig dataConfig, final Properties config);
 }

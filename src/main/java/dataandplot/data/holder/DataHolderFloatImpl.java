@@ -1,23 +1,23 @@
 package dataandplot.data.holder;
 
-import dataandplot.data.generator.config.GeneratorInfo;
+import dataandplot.config.DataConfig;
 import dataandplot.util.DataRangeFloat;
 
 public class DataHolderFloatImpl implements DataHolderFloat {
 
     private final FloatDataPoint[] data;
-    private final GeneratorInfo generatorInfo;
+    private final DataConfig generatorInfo;
     private final DataRangeFloat dataRange;
     private int dataIndex;
 
-    public DataHolderFloatImpl(final GeneratorInfo info) {
+    public DataHolderFloatImpl(final DataConfig info) {
         generatorInfo = info;
         dataRange = new DataRangeFloat();
-        data = new FloatDataPoint[generatorInfo.size()];
+        data = new FloatDataPoint[generatorInfo.getSize()];
         dataIndex = -1;
     }
 
-    public GeneratorInfo getGeneratorInfo() {
+    public DataConfig getGeneratorInfo() {
         return generatorInfo;
     }
 

@@ -2,18 +2,17 @@ package dataandplot.model.data;
 
 import dataandplot.model.data.range.MinMaxDouble;
 import dataandplot.model.data.range.UpdatableRangeDouble;
+import dataandplot.plot.converter.PixelConverter;
 
-public class DataSetDoubleImpl implements DataSetDouble {
+import java.awt.geom.Path2D;
+
+public class DataSetDoubleImpl extends AbstractDataSet implements DataSetDouble {
 
     private final double[][] data;
-    private int dataIndex;
-    private final UpdatableRangeDouble updatableRange;
-    private MinMaxDouble minMaxDouble;
 
     public DataSetDoubleImpl(int size) {
+        super();
         data = new double[size][2];
-        updatableRange = new UpdatableRangeDouble();
-        dataIndex = -1;
     }
 
     public void setData(double x, double y) {
@@ -28,18 +27,21 @@ public class DataSetDoubleImpl implements DataSetDouble {
     }
 
     @Override
-    public void endOfData() {
-        minMaxDouble = updatableRange.getMinMaxDouble();
-    }
-
-    @Override
-    public MinMaxDouble getDataRange() {
-        return minMaxDouble;
-    }
-
-    @Override
     public int getDataLength() {
         return data.length;
+    }
+
+    @Override
+    public void populatePath(PixelConverter dataToPixelConverter, Path2D.Float convertedPath) {
+        for (int i = 0; i < data.length; i++) {
+            double[] point = data[i];
+            float x = dataToPixelConverter.physicalToPixelX(point[0]);
+            float y = dataToPixelConverter.physicalToPixelY(point[0]);
+            if (i == 0)
+                convertedPath.moveTo(x, y);
+            else
+                convertedPath.lineTo(x, y);
+        }
     }
 
     @Override

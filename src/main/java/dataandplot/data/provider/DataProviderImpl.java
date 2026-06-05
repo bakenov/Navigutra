@@ -16,7 +16,7 @@ public class DataProviderImpl implements DataProvider {
 
     private final ConfigManager configManager;
     private final DataRepository dataRepository;
-     private DataLineGeneratorBuilder dataLineGeneratorBuilder;
+    private DataLineGeneratorBuilder dataLineGeneratorBuilder;
 
     public DataProviderImpl(final ConfigManager configManager, final DataRepository dataRepository) {
         this.configManager = configManager;

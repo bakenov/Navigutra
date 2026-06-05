@@ -3,6 +3,7 @@ package dataandplot.plot.converter;
 import dataandplot.plot.Insets;
 import dataandplot.util.DataRangeFloat;
 
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 public class PixelConverterImpl implements PixelConverter {
@@ -38,6 +39,7 @@ public class PixelConverterImpl implements PixelConverter {
     }
 
     // Convert Data to Pixels (for drawing)
+
     @Override
     public int physicalToPixelX(double x) {
         return (int) Math.round(plotInsets.left() + ((x - physicalRange.getMinX()) / physicalRange.getRangeX()) * plotWidth);

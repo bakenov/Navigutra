@@ -2,6 +2,7 @@ package dataandplot.plot.converter;
 
 import dataandplot.util.DataRangeFloat;
 
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 public interface PixelConverter {
@@ -11,5 +12,4 @@ public interface PixelConverter {
     DataRangeFloat getPixelRange();
     int physicalToPixelX(double x);
     int physicalToPixelY(double y);
-//    FloatDataPoint pixelToPhysical(int px, int py);
 }

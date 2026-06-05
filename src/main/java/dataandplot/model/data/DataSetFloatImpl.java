@@ -1,20 +1,16 @@
 package dataandplot.model.data;
 
-import dataandplot.model.data.range.MinMaxFloat;
-import dataandplot.model.data.range.UpdatableRangeDouble;
-import dataandplot.model.data.range.UpdatableRangeFloat;
+import dataandplot.plot.converter.PixelConverter;
 
-public class DataSetFloatImpl implements DataSetFloat {
+import java.awt.geom.Path2D;
+
+public class DataSetFloatImpl extends AbstractDataSet implements DataSetFloat {
 
     private final float[][] data;
-    private int dataIndex;
-    private final UpdatableRangeFloat updatableRange;
-    private MinMaxFloat minMax;
 
     public DataSetFloatImpl(int size) {
+        super();
         data = new float[size][2];
-        updatableRange = new UpdatableRangeFloat();
-        dataIndex = -1;
     }
 
     @Override
@@ -30,11 +26,6 @@ public class DataSetFloatImpl implements DataSetFloat {
     }
 
     @Override
-    public MinMaxFloat getDataRange() {
-        return minMax;
-    }
-
-    @Override
     public float[] getDataAt(int index) {
         if (dataIndex < data.length) {
             return data[index];
@@ -44,12 +35,12 @@ public class DataSetFloatImpl implements DataSetFloat {
     }
 
     @Override
-    public void endOfData() {
-        minMax = updatableRange.getMinMaxFloat();
+    public int getDataLength() {
+        return data.length;
     }
 
     @Override
-    public int getDataLength() {
-        return data.length;
+    public void populatePath(PixelConverter dataToPixelConverter, Path2D.Float convertedPath) {
+
     }
 }

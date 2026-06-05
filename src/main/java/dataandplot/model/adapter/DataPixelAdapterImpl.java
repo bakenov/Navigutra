@@ -6,11 +6,14 @@ import dataandplot.config.DataLineConfig;
 import dataandplot.data.generator.dataline.DataLineGenerator;
 import dataandplot.data.repository.DataRepository;
 import dataandplot.model.data.DataSet;
+import dataandplot.model.data.range.MinMaxDouble;
+import dataandplot.model.data.range.UpdatableRangeDouble;
 import dataandplot.plot.Insets;
 import dataandplot.plot.converter.PixelConverter;
 import dataandplot.plot.converter.PixelConverterImpl;
 
 
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -21,12 +24,12 @@ public class DataPixelAdapterImpl implements DataPixelAdapter {
 
     private final ConfigManager configManager;
     private final DataRepository dataRepository;
+    private final UpdatableRangeDouble updatableRange;
     private final Insets plotInsets;
-
     private final PixelConverter dataToPixelConverter;
-    private String dataConfigFile;
+    private final Map<String, Path2D.Float> convertedPathMap;
 
-    private DataConfig generatorInfo;
+    private MinMaxDouble rangeForAllDatasets;
 
     private Path2D.Float convertedPath;
     private boolean updatePath = true;
@@ -37,8 +40,8 @@ public class DataPixelAdapterImpl implements DataPixelAdapter {
         this.dataRepository = dataRepository;
         this.plotInsets = configManager.getUIConfig().plotInsets();
         this.dataToPixelConverter = new PixelConverterImpl(configManager.getUIConfig().plotInsets());
-//        DataRangeFloat range = dataHolder.getDataRange();
-//        dataToPixelConverter = new PixelConverterImpl(range);
+        this.updatableRange = new UpdatableRangeDouble();
+        this.convertedPathMap = new HashMap<>();
     }
 
     public void setPlotBounds(Rectangle2D plotBounds) {
@@ -48,13 +51,26 @@ public class DataPixelAdapterImpl implements DataPixelAdapter {
 
     @Override
     public void allDataGenerated() {
+        updatableRange.reset();
         DataConfig dataConfig = configManager.getDataConfig();
         List<DataLineConfig> dataLineConfigs = dataConfig.getDataLineConfigs();
         dataLineConfigs.forEach(dlc -> {
             DataSet dataSet = dataRepository.getDataSet(dlc);
-            //dataSet.
+            MinMaxDouble range = dataSet.getDataRange();
+            updatableRange.updateRange(range);
         });
+        rangeForAllDatasets = updatableRange.getMinMaxDouble();
+    }
 
+    public void buildAllPaths() {
+        DataConfig dataConfig = configManager.getDataConfig();
+        List<DataLineConfig> dataLineConfigs = dataConfig.getDataLineConfigs();
+        dataLineConfigs.forEach(dlc -> {
+            DataSet dataSet = dataRepository.getDataSet(dlc);
+            Path2D.Float path = convertedPath = new Path2D.Float(GeneralPath.WIND_NON_ZERO, dataSet.getDataLength());
+            dataSet.populatePath(dataToPixelConverter, convertedPath);
+            convertedPathMap.put(dlc.name(), path);
+        });
     }
 
     public PixelConverter getDataToPixelConverter() {

@@ -23,6 +23,7 @@ public record DataLineGeneratorDouble(String dataLineName, int size, DoubleUnary
                 double x = indexToXDouble.toXbyIndex(i);
                 dataSetDouble.setData(x, function.applyAsDouble(x));
             }
+            dataSetDouble.endOfData();
         }
     }
 

@@ -1,4 +1,4 @@
-package dataandplot.function.param;
+package dataandplot.function;
 
 import dataandplot.config.FunctionConfig;
 import org.junit.jupiter.api.Test;

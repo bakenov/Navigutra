@@ -5,8 +5,6 @@ import dataandplot.config.DataConfig;
 import dataandplot.data.generator.step.StepDataGenerator;
 import dataandplot.data.holder.DataHolderFloat;
 import dataandplot.data.holder.FloatDataPoint;
-import dataandplot.data.provider.builder.DataProviderBuilder;
-import dataandplot.data.provider.builder.DataProviderBuilderImpl;
 import dataandplot.plot.converter.PixelConverter;
 import dataandplot.plot.converter.PixelConverterImpl;
 
@@ -65,7 +63,7 @@ public class AbstractDataProvider implements DataProvider {
     public void buildData(final Properties dataConfig) {
         if(dataConfig == null)
             return;
-        DataProviderBuilder dataBuilder = new DataProviderBuilderImpl();
+ //       DataProviderBuilder dataBuilder = new DataProviderBuilderImpl();
 //        GeneratorInfo dataInfo = new GeneratorInfo(config);
 //        IO.println("PlotExample()   dataInfo:" + dataInfo);
 //        dataBuilder.build(dataInfo, config);
@@ -81,7 +79,6 @@ public class AbstractDataProvider implements DataProvider {
         return dataToPixelConverter;
     }
 
-    @Override
     public Path2D.Float getDataPathInPixels() {
         if (!updatePath)
             return convertedPath;

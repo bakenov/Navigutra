@@ -18,10 +18,15 @@ public class FunctionConfig {
                     String key = buildKey(lineIndex, param.getPropertyName());
                     if (properties.containsKey(key)) {
                         String value = properties.getProperty(key);
-                        parameters.put(param, value);
+                        set(param, value);
                     }
                 });
         return this;
+    }
+
+    // mostly for tests
+    public void set(Parameter param, String value) {
+        parameters.put(param, value);
     }
 
     private String buildKey(int lineIndex, String property) {

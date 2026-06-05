@@ -8,7 +8,4 @@ import java.awt.geom.Rectangle2D;
 public interface DataProvider {
 
     void buildData();
-    PixelConverter getDataToPixelConverter();
-    Path2D.Float getDataPathInPixels();
-    void setPlotBounds(Rectangle2D plotBounds);
 }

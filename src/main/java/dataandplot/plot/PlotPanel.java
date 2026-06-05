@@ -51,7 +51,7 @@ public class PlotPanel extends JPanel {
             @Override
             public void componentResized(ComponentEvent e) {
                 if (displayData) {
-                    dataProvider.setPlotBounds(e.getComponent().getBounds());
+//                    dataProvider.setPlotBounds(e.getComponent().getBounds());
 //                IO.println("PlotPanel  new Bounds: " + e.getComponent().getBounds());
                 }
             }
@@ -83,8 +83,8 @@ public class PlotPanel extends JPanel {
         axisX.paintAxis(g2);
         axisY.paintAxis(g2);
 
-        Path2D.Float convertedPath = dataProvider.getDataPathInPixels();
-        g2.draw(convertedPath);
+//        Path2D.Float convertedPath = dataProvider.getDataPathInPixels();
+//        g2.draw(convertedPath);
     }
 }
 

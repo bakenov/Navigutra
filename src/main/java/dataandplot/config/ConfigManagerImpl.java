@@ -40,7 +40,6 @@ public class ConfigManagerImpl implements ConfigManager {
         if (newDataConfigFile != null && (processedDataFile == null || ! processedDataFile.equals(newDataConfigFile.getAbsolutePath()))) {
             Properties dataProperties = loadProperties(newDataConfigFile);
             dataConfig = new DataConfigImpl(dataProperties);
-            IO.println("ConfigManagerImpl.dataConfigFileChanged()   dataConfig=" + dataConfig);
             processedDataFile = newDataConfigFile.getAbsolutePath();
             IO.println("ConfigManagerImpl.dataConfigFileChanged()   processedDataFile=" + processedDataFile);
             return true;

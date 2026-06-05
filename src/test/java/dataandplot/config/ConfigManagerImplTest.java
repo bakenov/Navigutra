@@ -36,7 +36,8 @@ public class ConfigManagerImplTest {
         assertEquals(1, dataLineConfigs.size());
         DataLineConfig dataLineConfig1 = dataLineConfigs.get(0);
         assertEquals("Just Line", dataLineConfig1.name());
-        assertEquals(DataGeneratorType.LINE, dataLineConfig1.type());
+        assertEquals(DataGeneratorType.LINE, dataLineConfig1.funType());
+        assertEquals(DataType.DOUBLE, dataLineConfig1.dataType());
 
         FunctionConfig funConfig = dataLineConfig1.functionConfig();
         assertEquals(1.0, funConfig.getDoubleValueBy(Parameter.LINE_A));

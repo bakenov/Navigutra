@@ -1,18 +1,18 @@
 package dataandplot.model.data;
 
 import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.UpdatableRange;
+import dataandplot.model.data.range.UpdatableRangeDouble;
 
 public class DataSetDoubleImpl implements DataSetDouble {
 
     private final double[][] data;
     private int dataIndex;
-    private final UpdatableRange updatableRange;
+    private final UpdatableRangeDouble updatableRange;
     private MinMaxDouble minMaxDouble;
 
     public DataSetDoubleImpl(int size) {
         data = new double[size][2];
-        updatableRange = new UpdatableRange();
+        updatableRange = new UpdatableRangeDouble();
         dataIndex = -1;
     }
 

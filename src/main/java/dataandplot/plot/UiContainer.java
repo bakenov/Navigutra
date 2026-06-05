@@ -4,6 +4,7 @@ import dataandplot.config.ConfigManager;
 import dataandplot.config.DataConfig;
 import dataandplot.config.UIConfig;
 import dataandplot.data.provider.DataProvider;
+import dataandplot.model.adapter.DataPixelAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,13 +19,17 @@ public class UiContainer {
     public static final String BUILD_PLOT_MENU_ITEM_NAME = "Build And PlotData";
 
     private final ConfigManager configManager;
+    private final DataPixelAdapter adapter;
     private final DataProvider dataProvider;
     private final JFrame frame;
 
-    public UiContainer(final ConfigManager configManager, final DataProvider dataProvider) {
+    public UiContainer(final ConfigManager configManager,
+                       final DataProvider dataProvider,
+                       final DataPixelAdapter adapter) {
         // 1. set config manager
         this.configManager = configManager;
         this.dataProvider = dataProvider;
+        this.adapter = adapter;
         // 2. build frame
         UIConfig uiConfig = configManager.getUIConfig();
         this.frame = new JFrame(uiConfig.name());
@@ -36,7 +41,7 @@ public class UiContainer {
         // 2. Create the content panel
         JPanel contentPanel = createParentPanel();
         // 3. Create the plot panel
-        PlotPanel plotPanel = new PlotPanel(uiConfig.plotInsets(), dataProvider);
+        PlotPanel plotPanel = new PlotPanel(uiConfig.plotInsets(), adapter);
         contentPanel.add(plotPanel, BorderLayout.CENTER);
         frame.add(contentPanel);
     }
@@ -74,6 +79,7 @@ public class UiContainer {
                         break;
                     case BUILD_MENU_ITEM_NAME:
                         dataProvider.buildData();
+                        adapter.allDataGenerated();
                         break;
                     case BUILD_PLOT_MENU_ITEM_NAME:
                         break;

@@ -1,7 +1,5 @@
 package dataandplot.plot.converter;
 
-import dataandplot.config.ConfigManager;
-import dataandplot.data.holder.FloatDataPoint;
 import dataandplot.plot.Insets;
 import dataandplot.util.DataRangeFloat;
 
@@ -51,12 +49,12 @@ public class PixelConverterImpl implements PixelConverter {
     }
 
     // Convert Pixels to Data (for mouse tracking/selection)
-    @Override
-    public FloatDataPoint pixelToPhysical(int px, int py) {
-        float x = (float) (physicalRange.getMinX() + ((px - plotInsets.left()) / plotWidth) * physicalRange.getRangeX());
-        float y = (float) (physicalRange.getMinY() + ((plotBounds.getHeight() - py - plotInsets.bottom()) / plotHeight) * physicalRange.getRangeY());
-        return new FloatDataPoint(x, y);
-    }
+//    @Override
+//    public FloatDataPoint pixelToPhysical(int px, int py) {
+//        float x = (float) (physicalRange.getMinX() + ((px - plotInsets.left()) / plotWidth) * physicalRange.getRangeX());
+//        float y = (float) (physicalRange.getMinY() + ((plotBounds.getHeight() - py - plotInsets.bottom()) / plotHeight) * physicalRange.getRangeY());
+//        return new FloatDataPoint(x, y);
+//    }
 
     private void updatePixelRange() {
         int minX = physicalToPixelX(physicalRange.getMinX());

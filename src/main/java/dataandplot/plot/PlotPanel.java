@@ -1,7 +1,6 @@
 package dataandplot.plot;
 
-import dataandplot.data.holder.FloatDataPoint;
-import dataandplot.data.provider.DataProvider;
+import dataandplot.model.adapter.DataPixelAdapter;
 import dataandplot.plot.axis.AxisX;
 import dataandplot.plot.axis.AxisY;
 import dataandplot.plot.converter.PixelConverter;
@@ -13,13 +12,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Path2D;
 
 import static dataandplot.util.Utils.formatNum;
 
 public class PlotPanel extends JPanel {
 
-    private final DataProvider dataProvider;
+    private final DataPixelAdapter adapter;
     private final Insets plotInsets;
 
     private DataRangeFloat range;
@@ -28,9 +26,9 @@ public class PlotPanel extends JPanel {
     private AxisY axisY;
     private volatile boolean displayData;
 
-    public PlotPanel(final Insets plotInsets, final DataProvider dataProvider) {
+    public PlotPanel(final Insets plotInsets, final DataPixelAdapter adapter) {
         this.plotInsets = plotInsets;
-        this.dataProvider = dataProvider;
+        this.adapter = adapter;
 
         setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -38,12 +36,12 @@ public class PlotPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (displayData) {
-                    FloatDataPoint data = converter.pixelToPhysical(e.getX(), e.getY());
-                    converter.physicalToPixelX(data.x());
-                    IO.println("PlotPanel  click on Pixel: [" + e.getX() + ", " + e.getY() + "] --> [" +
-                            formatNum(data.x()) + ", " + formatNum(data.y()) + "] --> [" +
-                            converter.physicalToPixelX(data.x()) + ", " +
-                            converter.physicalToPixelY(data.y()) + "]");
+//                    FloatDataPoint data = converter.pixelToPhysical(e.getX(), e.getY());
+//                    converter.physicalToPixelX(data.x());
+//                    IO.println("PlotPanel  click on Pixel: [" + e.getX() + ", " + e.getY() + "] --> [" +
+//                            formatNum(data.x()) + ", " + formatNum(data.y()) + "] --> [" +
+//                            converter.physicalToPixelX(data.x()) + ", " +
+//                            converter.physicalToPixelY(data.y()) + "]");
                 }
             }
         });

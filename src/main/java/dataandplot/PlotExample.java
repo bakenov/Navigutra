@@ -4,6 +4,8 @@ import dataandplot.config.ConfigManager;
 import dataandplot.config.ConfigManagerImpl;
 import dataandplot.data.provider.DataProvider;
 import dataandplot.data.provider.DataProviderImpl;
+import dataandplot.data.repository.DataRepository;
+import dataandplot.data.repository.DataRepositoryImpl;
 import dataandplot.model.adapter.DataPixelAdapter;
 import dataandplot.model.adapter.DataPixelAdapterImpl;
 import dataandplot.plot.UiContainer;
@@ -23,12 +25,14 @@ public class PlotExample {
 
         // 1. Data experiment configuration
         ConfigManager configManager = new ConfigManagerImpl();
+        // 2. Build Data repository
+        DataRepository dataRepository = new DataRepositoryImpl();
         // 2. Build data to pixel adapter
-        DataPixelAdapter adapter = new DataPixelAdapterImpl(configManager);
+        DataPixelAdapter adapter = new DataPixelAdapterImpl(configManager, dataRepository);
         // 3. Build Data provider
-        DataProvider dataProvider = new DataProviderImpl(configManager, adapter);
+        DataProvider dataProvider = new DataProviderImpl(configManager, dataRepository);
         // 4. Build UI container
-        ui = new UiContainer(configManager, dataProvider);
+        ui = new UiContainer(configManager, dataProvider, adapter);
     }
 
     private void showFrame() {

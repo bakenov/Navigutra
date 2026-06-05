@@ -26,20 +26,20 @@ public class DataLineGeneratorBuilderImplTest extends BaseGeneratorTest {
         DataLineGenerator gen = builder.buildDataLineGenerator(buildDataLineConfig());
         assertInstanceOf(DataLineGeneratorDouble.class, gen);
         DataLineGeneratorDouble generator = (DataLineGeneratorDouble) gen;
-        assertEquals("testName", generator.getDataLineName());
+        assertEquals("testName", generator.dataLineName());
 
-        DoubleUnaryOperator fun = generator.getFunction();
+        DoubleUnaryOperator fun = generator.function();
         assertInstanceOf(LineFunctionDoubleImpl.class, fun);
         LineFunctionDoubleImpl function = (LineFunctionDoubleImpl) fun;
         assertEquals(2.5, function.a());
         assertEquals(1, function.b());
 
-        IndexToXDouble to = generator.getIndexToXDouble();
+        IndexToXDouble to = generator.indexToXDouble();
         assertInstanceOf(IndexToXDoubleImpl.class, to);
         IndexToXDoubleImpl indexToXDouble = (IndexToXDoubleImpl) to;
         assertEquals(2.0, indexToXDouble.xunit());
 
-        DataSet set = generator.getDataSet();
+        DataSet set = generator.dataSet();
         assertInstanceOf(DataSetDouble.class, set);
         DataSetDouble dataSetDouble = (DataSetDouble) set;
         MinMaxDouble range = dataSetDouble.getDataRange();

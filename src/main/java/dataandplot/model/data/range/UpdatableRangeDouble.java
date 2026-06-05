@@ -1,17 +1,17 @@
 package dataandplot.model.data.range;
 
-public class UpdatableRange {
+public class UpdatableRangeDouble {
 
     private double minX;
     private double maxX;
     private double minY;
     private double maxY;
 
-    public UpdatableRange() {
-        minX = Float.MAX_VALUE;
-        minY = Float.MAX_VALUE;
-        maxX = Float.MIN_VALUE;
-        maxY = Float.MIN_VALUE;
+    public UpdatableRangeDouble() {
+        minX = Double.MAX_VALUE;
+        minY = Double.MAX_VALUE;
+        maxX = Double.MIN_VALUE;
+        maxY = Double.MIN_VALUE;
     }
 
     public MinMaxDouble getMinMaxDouble() {

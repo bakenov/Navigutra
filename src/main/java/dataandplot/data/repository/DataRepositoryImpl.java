@@ -1,11 +1,11 @@
 package dataandplot.data.repository;
 
 import dataandplot.config.DataLineConfig;
-import dataandplot.model.data.DataSet;
-import dataandplot.model.data.DataSetDoubleImpl;
-import dataandplot.model.data.DataSetFloatImpl;
-import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.UpdatableRangeDouble;
+import dataandplot.data.dataset.DataSet;
+import dataandplot.data.dataset.DataSetDoubleImpl;
+import dataandplot.data.dataset.DataSetFloatImpl;
+import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.UpdatableRangeDouble;
 
 import java.util.HashMap;
 import java.util.Map;

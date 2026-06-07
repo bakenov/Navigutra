@@ -4,8 +4,7 @@ import dataandplot.config.ConfigManager;
 import dataandplot.config.DataConfig;
 import dataandplot.config.UIConfig;
 import dataandplot.data.provider.DataProvider;
-import dataandplot.model.adapter.DataPixelAdapter;
-import dataandplot.model.plotdata.area.PlotAreaManager;
+import dataandplot.plot.area.manager.PlotAreaManager;
 import dataandplot.plot.converter.AreaToDataConverter;
 
 

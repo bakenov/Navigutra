@@ -1,15 +1,10 @@
 package dataandplot.plot;
 
-import dataandplot.model.adapter.DataPixelAdapter;
-import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.RangeChangeListener;
-import dataandplot.model.data.range.RangeType;
-import dataandplot.model.plotdata.area.PlotAreaManager;
-import dataandplot.plot.axis.AxisX;
-import dataandplot.plot.axis.AxisY;
+import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.RangeChangeListener;
+import dataandplot.data.range.RangeType;
+import dataandplot.plot.area.manager.PlotAreaManager;
 import dataandplot.plot.converter.AreaToDataConverter;
-import dataandplot.plot.converter.PixelConverter;
-import dataandplot.plot.provider.GraphDataProvider;
 
 import static dataandplot.util.Utils.formatNum;
 

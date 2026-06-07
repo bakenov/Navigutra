@@ -6,11 +6,8 @@ import dataandplot.data.provider.DataProvider;
 import dataandplot.data.provider.DataProviderImpl;
 import dataandplot.data.repository.DataRepository;
 import dataandplot.data.repository.DataRepositoryImpl;
-import dataandplot.model.adapter.DataPixelAdapter;
-import dataandplot.model.adapter.DataPixelAdapterImpl;
-import dataandplot.model.data.range.RangeChangeListener;
-import dataandplot.model.plotdata.area.PlotAreaManager;
-import dataandplot.model.plotdata.area.PlotAreaManagerImpl;
+import dataandplot.plot.area.manager.PlotAreaManager;
+import dataandplot.plot.area.manager.PlotAreaManagerImpl;
 import dataandplot.plot.UiContainer;
 import dataandplot.plot.converter.AreaToDataConverter;
 import dataandplot.plot.converter.AreaToDataConverterImpl;
@@ -34,19 +31,17 @@ public class PlotExample {
         ConfigManager configManager = new ConfigManagerImpl();
         // 2. Build Data repository
         DataRepository dataRepository = new DataRepositoryImpl();
-        // 3. Build data to pixel adapter
-        //DataPixelAdapter adapter = new DataPixelAdapterImpl(configManager, dataRepository);
-        // 4. Build Data provider
+        // 3. Build Data provider
         DataProvider dataProvider = new DataProviderImpl(configManager, dataRepository);
-
+        // 4. DataConverter
         AreaToDataConverter areaToDataConverter = new AreaToDataConverterImpl();
-        // 4. Build graph data provider
+        // 5. Build graph data provider
         GraphDataProvider graphDataProvider = new GraphDataProviderImpl(configManager, areaToDataConverter, dataRepository);
         dataProvider.addDataRangeChangeListener(graphDataProvider);
-        // 4. Build PlotAreaManager
+        // 6. Build PlotAreaManager
         PlotAreaManager plotAreaManager = new PlotAreaManagerImpl(configManager, graphDataProvider);
         dataProvider.addDataRangeChangeListener(plotAreaManager);
-        // 5. Build UI container
+        // 7. Build UI container
         ui = new UiContainer(configManager, dataProvider, plotAreaManager, areaToDataConverter);
         ui.getPlotPanel().addDataRangeChangeListener(plotAreaManager);
     }

@@ -1,7 +1,7 @@
 package dataandplot.data.model.data;
 
-import dataandplot.model.data.DataSetDoubleImpl;
-import dataandplot.model.data.range.MinMaxDouble;
+import dataandplot.data.dataset.DataSetDoubleImpl;
+import dataandplot.data.range.MinMaxDouble;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

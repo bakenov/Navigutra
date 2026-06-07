@@ -1,6 +1,6 @@
 package dataandplot.data.provider;
 
-import dataandplot.model.data.range.RangeChangeListener;
+import dataandplot.data.range.RangeChangeListener;
 
 public interface DataProvider {
 

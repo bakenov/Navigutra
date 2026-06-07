@@ -2,9 +2,9 @@ package dataandplot.data.generator.dataline;
 
 import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
-import dataandplot.model.data.DataSet;
-import dataandplot.model.data.DataSetDouble;
-import dataandplot.model.data.index.IndexToXDouble;
+import dataandplot.data.dataset.DataSet;
+import dataandplot.data.dataset.DataSetDouble;
+import dataandplot.data.generator.index.IndexToXDouble;
 
 import java.util.function.DoubleUnaryOperator;
 

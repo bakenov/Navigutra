@@ -6,8 +6,8 @@ import dataandplot.data.generator.dataline.DataLineGenerator;
 import dataandplot.data.generator.dataline.DataLineGeneratorDouble;
 import dataandplot.data.generator.function.LineFunctionDoubleImpl;
 import dataandplot.data.model.data.generator.BaseGeneratorTest;
-import dataandplot.model.data.index.IndexToXDouble;
-import dataandplot.model.data.index.IndexToXDoubleImpl;
+import dataandplot.data.generator.index.IndexToXDouble;
+import dataandplot.data.generator.index.IndexToXDoubleImpl;
 
 import org.junit.jupiter.api.Test;
 

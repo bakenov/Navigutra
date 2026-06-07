@@ -4,11 +4,10 @@ import dataandplot.config.ConfigManager;
 import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.repository.DataRepository;
-import dataandplot.model.data.DataSet;
-import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.RangeType;
+import dataandplot.data.dataset.DataSet;
+import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.RangeType;
 import dataandplot.plot.converter.AreaToDataConverter;
-import dataandplot.plot.converter.DataToPixelConverter;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;

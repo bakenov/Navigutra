@@ -4,10 +4,10 @@ import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.generator.function.LineFunctionDoubleImpl;
 import dataandplot.data.model.data.generator.BaseGeneratorTest;
-import dataandplot.model.data.DataSetDoubleImpl;
-import dataandplot.model.data.index.IndexToXDouble;
-import dataandplot.model.data.index.IndexToXDoubleImpl;
-import dataandplot.model.data.range.MinMaxDouble;
+import dataandplot.data.dataset.DataSetDoubleImpl;
+import dataandplot.data.generator.index.IndexToXDouble;
+import dataandplot.data.generator.index.IndexToXDoubleImpl;
+import dataandplot.data.range.MinMaxDouble;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.DoubleUnaryOperator;

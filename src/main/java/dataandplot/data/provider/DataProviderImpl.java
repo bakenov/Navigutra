@@ -7,10 +7,10 @@ import dataandplot.data.generator.builder.DataLineGeneratorBuilder;
 import dataandplot.data.generator.builder.DataLineGeneratorBuilderImpl;
 import dataandplot.data.generator.dataline.DataLineGenerator;
 import dataandplot.data.repository.DataRepository;
-import dataandplot.model.data.DataSet;
-import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.RangeChangeListener;
-import dataandplot.model.data.range.RangeType;
+import dataandplot.data.dataset.DataSet;
+import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.RangeChangeListener;
+import dataandplot.data.range.RangeType;
 
 import java.util.ArrayList;
 import java.util.List;

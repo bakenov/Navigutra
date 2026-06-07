@@ -1,6 +1,6 @@
 package dataandplot.data.model.data.range;
 
-import dataandplot.model.data.range.MinMaxDouble;
+import dataandplot.data.range.MinMaxDouble;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

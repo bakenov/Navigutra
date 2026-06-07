@@ -1,7 +1,7 @@
 package dataandplot.plot.converter;
 
-import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.RangeType;
+import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.RangeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

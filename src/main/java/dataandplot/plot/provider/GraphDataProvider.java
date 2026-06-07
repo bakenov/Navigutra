@@ -1,6 +1,6 @@
 package dataandplot.plot.provider;
 
-import dataandplot.model.data.range.RangeChangeListener;
+import dataandplot.data.range.RangeChangeListener;
 import dataandplot.plot.converter.AreaToDataConverter;
 
 import java.awt.geom.Path2D;

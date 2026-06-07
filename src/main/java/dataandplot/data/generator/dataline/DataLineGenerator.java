@@ -1,6 +1,6 @@
 package dataandplot.data.generator.dataline;
 
-import dataandplot.model.data.DataSet;
+import dataandplot.data.dataset.DataSet;
 
 public interface DataLineGenerator {
     String dataLineName();

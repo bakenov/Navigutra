@@ -2,9 +2,12 @@ package dataandplot.data.dataset;
 
 import dataandplot.plot.converter.DataToPixelConverter;
 
+import static dataandplot.util.Utils.X;
+import static dataandplot.util.Utils.Y;
+
 import java.awt.geom.Path2D;
 
-public class DataSetDoubleImpl extends AbstractDataSet implements DataSetDouble {
+public class DataSetDoubleImpl extends AbstractDataSet {
 
     private final double[][] data;
 
@@ -16,8 +19,8 @@ public class DataSetDoubleImpl extends AbstractDataSet implements DataSetDouble 
     public void setData(double x, double y) {
         dataIndex++;
         if (dataIndex < data.length) {
-            data[dataIndex][0] = x;
-            data[dataIndex][1] = y;
+            data[dataIndex][X] = x;
+            data[dataIndex][Y] = y;
             updatableRange.updateRange(x, y);
         } else {
             throw new RuntimeException("Should not be here.");

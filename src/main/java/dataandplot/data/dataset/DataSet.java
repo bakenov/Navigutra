@@ -10,4 +10,7 @@ public interface DataSet {
     int getDataLength();
     MinMaxDouble getDataRange();
     void populatePath(DataToPixelConverter dataToPixelConverter, Path2D.Float convertedPath);
+    void setData(double x, double y);
+    double[] getDataAt(int index);
+
 }

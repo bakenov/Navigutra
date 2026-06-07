@@ -3,12 +3,12 @@ package dataandplot.plot.converter;
 import dataandplot.data.range.MinMaxDouble;
 import dataandplot.data.range.RangeType;
 
+import static dataandplot.util.Utils.X;
+import static dataandplot.util.Utils.Y;
+
 import java.util.function.DoubleUnaryOperator;
 
 public class AreaToDataConverterImpl implements AreaToDataConverter {
-
-    private static final int X = 0;
-    private static final int Y = 1;
 
     private MinMaxDouble physicalRange;
     private MinMaxDouble areaRange;

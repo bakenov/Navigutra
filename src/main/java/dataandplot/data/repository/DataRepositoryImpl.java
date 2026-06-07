@@ -3,7 +3,6 @@ package dataandplot.data.repository;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.dataset.DataSet;
 import dataandplot.data.dataset.DataSetDoubleImpl;
-import dataandplot.data.dataset.DataSetFloatImpl;
 import dataandplot.data.range.MinMaxDouble;
 import dataandplot.data.range.UpdatableRangeDouble;
 
@@ -48,10 +47,6 @@ public class DataRepositoryImpl implements DataRepository {
     }
 
     private DataSet buildDataSet(DataLineConfig dataLineConfig) {
-        return switch (dataLineConfig.dataType()) {
-            case DOUBLE -> new DataSetDoubleImpl(dataSize);
-            case FLOAT -> new DataSetFloatImpl(dataSize);
-            default -> null;
-        };
+        return new DataSetDoubleImpl(dataSize);
     }
 }

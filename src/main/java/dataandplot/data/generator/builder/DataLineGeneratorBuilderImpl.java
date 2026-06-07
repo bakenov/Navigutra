@@ -24,14 +24,8 @@ public class DataLineGeneratorBuilderImpl implements DataLineGeneratorBuilder {
     }
 
     private DataLineGenerator buildDataLineGenerator(DataLineConfig dataLineConfig) {
-        switch (dataLineConfig.dataType()) {
-            case DOUBLE:
-                LineFunctionDoubleImpl functionDouble = new LineFunctionDoubleImpl(dataLineConfig);
-                return new DataLineGeneratorDouble(dataConfig, dataLineConfig, functionDouble, indexToXDouble);
-            case FLOAT: {
-            }
-        }
-        return null;
+        LineFunctionDoubleImpl functionDouble = new LineFunctionDoubleImpl(dataLineConfig);
+        return new DataLineGeneratorDouble(dataConfig, dataLineConfig, functionDouble, indexToXDouble);
     }
 
     @Override

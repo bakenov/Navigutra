@@ -27,11 +27,10 @@ public class DataConfigImpl implements DataConfig {
         while (properties.containsKey(key)) {
             String name = properties.getProperty(key);
             key = buildKey(lineIndex, "dataType");
-            DataType dataType = DataType.valueOf(properties.getProperty(key));
             key = buildKey(lineIndex, "funType");
             DataGeneratorType type = DataGeneratorType.valueOf(properties.getProperty(key));
             FunctionConfig config = new FunctionConfig().processProperties(lineIndex, properties);
-            dataLineConfigs.add(new DataLineConfig(name, dataType, type, config));
+            dataLineConfigs.add(new DataLineConfig(name, type, config));
             key = buildKey(++lineIndex, "name");
         }
     }

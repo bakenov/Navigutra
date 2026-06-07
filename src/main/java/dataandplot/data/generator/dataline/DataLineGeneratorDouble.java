@@ -3,7 +3,6 @@ package dataandplot.data.generator.dataline;
 import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.dataset.DataSet;
-import dataandplot.data.dataset.DataSetDouble;
 import dataandplot.data.generator.index.IndexToXDouble;
 
 import java.util.function.DoubleUnaryOperator;
@@ -17,12 +16,10 @@ public record DataLineGeneratorDouble(String dataLineName, int size, DoubleUnary
 
     @Override
     public void populateDataSet(DataSet dataSet) {
-        if (dataSet instanceof DataSetDouble dataSetDouble) {
-            for (int i = 0; i < size; i++) {
-                double x = indexToXDouble.toXbyIndex(i);
-                dataSetDouble.setData(x, function.applyAsDouble(x));
-            }
-            dataSetDouble.endOfData();
+        for (int i = 0; i < size; i++) {
+            double x = indexToXDouble.toXbyIndex(i);
+            dataSet.setData(x, function.applyAsDouble(x));
         }
+        dataSet.endOfData();
     }
 }

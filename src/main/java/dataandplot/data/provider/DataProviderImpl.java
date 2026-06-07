@@ -31,11 +31,9 @@ public class DataProviderImpl implements DataProvider {
     @Override
     public void buildData() {
         DataConfig dataConfig = configManager.getDataConfig();
-        //IO.println("DataProviderImpl.buildData()   dataConfig=" + dataConfig);
         dataRepository.setDataSize(dataConfig.getSize());
         dataLineGeneratorBuilder = new DataLineGeneratorBuilderImpl(dataConfig);
         List<DataLineConfig> dataLineConfigs = dataConfig.getDataLineConfigs();
-        //IO.println("DataProviderImpl.buildData()   dataLineConfigs=" + dataLineConfigs);
         dataLineConfigs.forEach(dlc -> {
             DataLineGenerator generator = dataLineGeneratorBuilder.getDataLineGenerator(dlc);
             DataSet dataSet = dataRepository.getDataSet(dlc);

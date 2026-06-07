@@ -10,6 +10,9 @@ import java.util.Properties;
 
 public class Utils {
 
+    public static final int X = 0;
+    public static final int Y = 1;
+
     public static String formatNum(double num) {
         return String.format("%.1f", num);
     }

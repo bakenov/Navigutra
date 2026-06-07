@@ -1,73 +1,86 @@
 package dataandplot.plot.converter;
 
+import dataandplot.model.data.range.MinMaxDouble;
 import dataandplot.plot.Insets;
-import dataandplot.util.DataRangeFloat;
 
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 public class PixelConverterImpl implements PixelConverter {
 
-    private Rectangle2D plotBounds;
     private final Insets plotInsets;
-    private DataRangeFloat physicalRange;
-    private final DataRangeFloat pixelRange;
+    private MinMaxDouble physicalRange;
+    private MinMaxDouble pixelRange;
     // cached values
     private double plotWidth;
     private double plotHeight;
 
     public PixelConverterImpl(final Insets plotInsets) {
-        this.pixelRange = new DataRangeFloat();
         this.plotInsets = plotInsets;
     }
 
-    public void setDataRange(final DataRangeFloat range) {
+    public void setPhysicalDataRange(final MinMaxDouble range) {
+        IO.println("PixelConverterImpl.setPhysicalDataRange()   " + range);
         this.physicalRange = range;
-    }
+        if (physicalRange == null) {
 
-    @Override
-    public DataRangeFloat getPhysicalRange() {
-        return physicalRange;
+        }
     }
 
     @Override
    public void setPlotBounds(Rectangle2D plotBounds) {
-        this.plotBounds = plotBounds;
+        IO.println("PixelConverterImpl.setPlotBounds  new Bounds: " + plotBounds);
         plotWidth = plotBounds.getWidth() - plotInsets.getWidth();
         plotHeight = plotBounds.getHeight() - plotInsets.getHeight();
-        updatePixelRange();
+        if (physicalRange != null) {
+            updatePixelRange();
+        }
     }
 
     // Convert Data to Pixels (for drawing)
 
     @Override
-    public int physicalToPixelX(double x) {
-        return (int) Math.round(plotInsets.left() + ((x - physicalRange.getMinX()) / physicalRange.getRangeX()) * plotWidth);
+    public float physicalToPixelX(double x) {
+        return (float) Math.round(plotInsets.left() + ((x - physicalRange.minX()) / physicalRange.width()) * plotWidth);
     }
 
     @Override
-    public int physicalToPixelY(double y) {
-        return (int) Math.round(plotBounds.getHeight() - plotInsets.bottom() - ((y - physicalRange.getMinY()) / physicalRange.getRangeY()) * plotHeight);
+    public float physicalToPixelY(double y) {
+        return (float) Math.round(plotHeight - plotInsets.bottom() - ((y - physicalRange.minY()) / physicalRange.height()) * plotHeight);
+    }
+
+    @Override
+    public float[] scalePhysicalToPixel(double[] point) {
+        return new float[0];
+    }
+
+    @Override
+    public float[] physicalToPixel(double[] point) {
+        return new float[0];
     }
 
     // Convert Pixels to Data (for mouse tracking/selection)
-//    @Override
-//    public FloatDataPoint pixelToPhysical(int px, int py) {
-//        float x = (float) (physicalRange.getMinX() + ((px - plotInsets.left()) / plotWidth) * physicalRange.getRangeX());
-//        float y = (float) (physicalRange.getMinY() + ((plotBounds.getHeight() - py - plotInsets.bottom()) / plotHeight) * physicalRange.getRangeY());
-//        return new FloatDataPoint(x, y);
-//    }
-
-    private void updatePixelRange() {
-        int minX = physicalToPixelX(physicalRange.getMinX());
-        int maxX = physicalToPixelX(physicalRange.getMaxX());
-        int minY = physicalToPixelY(physicalRange.getMinY());
-        int maxY = physicalToPixelY(physicalRange.getMaxY());
-        pixelRange.setRange(minX, minY, maxX, maxY);
+    @Override
+    public float[] pixelToPhysical(int px, int py) {
+        float x = (float) (physicalRange.minX() + ((px - plotInsets.left()) / plotWidth) * physicalRange.width());
+        float y = (float) (physicalRange.minY() + ((plotHeight - py - plotInsets.bottom()) / plotHeight) * physicalRange.height());
+        return new float[]{x, y};
     }
 
-    public DataRangeFloat getPixelRange() {
+    private void updatePixelRange() {
+        int minX = (int) physicalToPixelX(physicalRange.minX());
+        int maxX = (int) physicalToPixelX(physicalRange.maxX());
+        int minY = (int) physicalToPixelY(physicalRange.minY());
+        int maxY = (int) physicalToPixelY(physicalRange.maxY());
+        pixelRange = new MinMaxDouble(minX, minY, maxX, maxY);
+    }
+
+    public MinMaxDouble getPixelRange() {
         return pixelRange;
+    }
+
+    @Override
+    public MinMaxDouble getPhysicalRange() {
+        return physicalRange;
     }
 
 }

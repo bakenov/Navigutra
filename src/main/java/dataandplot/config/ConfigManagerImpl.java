@@ -41,7 +41,7 @@ public class ConfigManagerImpl implements ConfigManager {
             Properties dataProperties = loadProperties(newDataConfigFile);
             dataConfig = new DataConfigImpl(dataProperties);
             processedDataFile = newDataConfigFile.getAbsolutePath();
-            IO.println("ConfigManagerImpl.dataConfigFileChanged()   processedDataFile=" + processedDataFile);
+            //IO.println("ConfigManagerImpl.dataConfigFileChanged()   processedDataFile=" + processedDataFile);
             return true;
         }
         return false;

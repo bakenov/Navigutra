@@ -1,5 +1,6 @@
 package dataandplot.model.data;
 
+import dataandplot.plot.converter.DataToPixelConverter;
 import dataandplot.plot.converter.PixelConverter;
 
 import java.awt.geom.Path2D;
@@ -40,7 +41,7 @@ public class DataSetFloatImpl extends AbstractDataSet implements DataSetFloat {
     }
 
     @Override
-    public void populatePath(PixelConverter dataToPixelConverter, Path2D.Float convertedPath) {
+    public void populatePath(DataToPixelConverter dataToPixelConverter, Path2D.Float convertedPath) {
 
     }
 }

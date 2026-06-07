@@ -8,14 +8,14 @@ import java.awt.geom.Line2D;
 
 public class AxisX extends AbstractAxis {
 
-    private int distanceBetweenTicksInPixels = 40;
+    private final int distanceBetweenTicksInPixels = 40;
 
     public AxisX(final PixelConverter converter) {
         super(converter);
     }
 
     private void buildLine() {
-        line = new Line2D.Float(pixelRange.getMinX(), pixelRange.getMinY(), pixelRange.getMaxX(), pixelRange.getMinY());
+        line = new Line2D.Float(pixelRange.minX(), pixelRange.minY(), pixelRange.maxX(), pixelRange.minY());
     }
 
     public void paintAxis(Graphics2D g2) {
@@ -26,20 +26,20 @@ public class AxisX extends AbstractAxis {
     }
 
     public void paintTicks(Graphics2D g2) {
-        int numberTicks = (int) pixelRange.getRangeX() / distanceBetweenTicksInPixels;
-        float pixelsBetweenTicks = (float) (pixelRange.getRangeX() / numberTicks);
-        double physicalValueBetweenTicks = physicalRange.getRangeX() / numberTicks;
+        int numberTicks = (int) pixelRange.width() / distanceBetweenTicksInPixels;
+        float pixelsBetweenTicks = pixelRange.width() / numberTicks;
+        float physicalValueBetweenTicks = physicalRange.width() / numberTicks;
         for (int i = 0; i < numberTicks + 1; i++) {
-            float x = pixelRange.getMinX() + i * pixelsBetweenTicks;
+            float x = pixelRange.minX() + i * pixelsBetweenTicks;
             Line2D.Float tick = new Line2D.Float(x,
-                    pixelRange.getMinY(), x, pixelRange.getMinY() + 5);
+                    pixelRange.minY(), x, pixelRange.minY() + 5);
 //            IO.println("AxisX.paintTicks()    tick: (" + tick.x1 + ", " + tick.y1 + " : " + tick.x2 + ", " + tick.y2 + ")     i=" + i);
 
             g2.draw(tick);
 
             if (i % 2 != 0) {
-                double value = physicalValueBetweenTicks * i + physicalRange.getMinX();
-                g2.drawString(Utils.formatNum(value), x - 10, pixelRange.getMinY() + 20);
+                float value = physicalValueBetweenTicks * i + physicalRange.minX();
+                g2.drawString(Utils.formatNum(value), x - 10, pixelRange.minY() + 20);
             }
         }
     }

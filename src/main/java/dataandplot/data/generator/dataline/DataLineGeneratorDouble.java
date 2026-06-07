@@ -4,7 +4,6 @@ import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.model.data.DataSet;
 import dataandplot.model.data.DataSetDouble;
-import dataandplot.model.data.DataSetDoubleImpl;
 import dataandplot.model.data.index.IndexToXDouble;
 
 import java.util.function.DoubleUnaryOperator;
@@ -26,5 +25,4 @@ public record DataLineGeneratorDouble(String dataLineName, int size, DoubleUnary
             dataSetDouble.endOfData();
         }
     }
-
 }

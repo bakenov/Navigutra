@@ -15,7 +15,7 @@ public class AxisY extends AbstractAxis {
     }
 
     void buildLine() {
-        line = new Line2D.Float(pixelRange.getMinX(), pixelRange.getMinY(), pixelRange.getMinX(), pixelRange.getMaxY());
+        line = new Line2D.Float(pixelRange.minX(), pixelRange.minY(), pixelRange.minX(), pixelRange.maxY());
     }
 
 
@@ -27,19 +27,19 @@ public class AxisY extends AbstractAxis {
     }
 
     public void paintTicks(Graphics2D g2) {
-        int numberTicks = (int) Math.abs(pixelRange.getRangeY()) / distanceBetweenTicksInPixels;
-        float pixelsBetweenTicks = (float) (pixelRange.getRangeY() / numberTicks);
-        double physicalValueBetweenTicks = physicalRange.getRangeY() / numberTicks;
+        int numberTicks = (int) Math.abs(pixelRange.helght()) / distanceBetweenTicksInPixels;
+        float pixelsBetweenTicks = pixelRange.helght() / numberTicks;
+        double physicalValueBetweenTicks = physicalRange.helght() / numberTicks;
         for (int i = 0; i < numberTicks + 1; i++) {
-            float y = pixelRange.getMinY() + i * pixelsBetweenTicks;
-            Line2D.Float tick = new Line2D.Float(pixelRange.getMinX() - 5,
-                    y, pixelRange.getMinX(), y);
+            float y = pixelRange.minY() + i * pixelsBetweenTicks;
+            Line2D.Float tick = new Line2D.Float(pixelRange.minX() - 5,
+                    y, pixelRange.minX(), y);
 //            IO.println("AxisY.paintTicks()    tick: (" + tick.x1 + ", " + tick.y1 + " : " + tick.x2 + ", " + tick.y2 + ")     i=" + i);
             g2.draw(tick);
 
             if (i % 2 != 0) {
-                double value = physicalValueBetweenTicks * i + physicalRange.getMinY();
-                g2.drawString(Utils.formatNum(value), pixelRange.getMinX() - 40, y + 5);
+                double value = physicalValueBetweenTicks * i + physicalRange.minY();
+                g2.drawString(Utils.formatNum(value), pixelRange.minX() - 40, y + 5);
             }
         }
     }

@@ -2,9 +2,11 @@ package dataandplot.model.data;
 
 import dataandplot.model.data.range.MinMaxDouble;
 import dataandplot.model.data.range.UpdatableRangeDouble;
+import dataandplot.plot.converter.DataToPixelConverter;
 import dataandplot.plot.converter.PixelConverter;
 
 import java.awt.geom.Path2D;
+import java.util.Arrays;
 
 public class DataSetDoubleImpl extends AbstractDataSet implements DataSetDouble {
 
@@ -32,15 +34,15 @@ public class DataSetDoubleImpl extends AbstractDataSet implements DataSetDouble 
     }
 
     @Override
-    public void populatePath(PixelConverter dataToPixelConverter, Path2D.Float convertedPath) {
+    public void populatePath(DataToPixelConverter dataToPixelConverter, Path2D.Float convertedPath) {
         for (int i = 0; i < data.length; i++) {
             double[] point = data[i];
-            float x = dataToPixelConverter.physicalToPixelX(point[0]);
-            float y = dataToPixelConverter.physicalToPixelY(point[0]);
+            float[] pixelPoint = dataToPixelConverter.physicalToPixel(point);
+            IO.println("DataSetDoubleImpl.populatePath()   " + Arrays.toString(point) + " -> " + Arrays.toString(pixelPoint));
             if (i == 0)
-                convertedPath.moveTo(x, y);
+                convertedPath.moveTo(pixelPoint[0], pixelPoint[1]);
             else
-                convertedPath.lineTo(x, y);
+                convertedPath.lineTo(pixelPoint[0], pixelPoint[1]);
         }
     }
 

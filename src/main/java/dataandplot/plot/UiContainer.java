@@ -5,6 +5,9 @@ import dataandplot.config.DataConfig;
 import dataandplot.config.UIConfig;
 import dataandplot.data.provider.DataProvider;
 import dataandplot.model.adapter.DataPixelAdapter;
+import dataandplot.model.plotdata.area.PlotAreaManager;
+import dataandplot.plot.converter.AreaToDataConverter;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,32 +19,34 @@ public class UiContainer {
 
     public static final String CONFIG_MENU_ITEM_NAME = "Data Config File";
     public static final String BUILD_MENU_ITEM_NAME = "Build Data";
-    public static final String BUILD_PLOT_MENU_ITEM_NAME = "Build And PlotData";
+    public static final String BUILD_PLOT_MENU_ITEM_NAME = "Build And Display Data";
+    public static final String DISPLAY_DATA_MENU_ITEM_NAME = "Display Data";
 
     private final ConfigManager configManager;
-    private final DataPixelAdapter adapter;
     private final DataProvider dataProvider;
     private final JFrame frame;
+    private final PlotPanel plotPanel;
 
     public UiContainer(final ConfigManager configManager,
                        final DataProvider dataProvider,
-                       final DataPixelAdapter adapter) {
+                       final PlotAreaManager areaManager,
+                       final AreaToDataConverter areaToDataConverter) {
         // 1. set config manager
         this.configManager = configManager;
         this.dataProvider = dataProvider;
-        this.adapter = adapter;
-        // 2. build frame
+        // 2. get UI config
         UIConfig uiConfig = configManager.getUIConfig();
+        // 3. build frame
         this.frame = new JFrame(uiConfig.name());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setSize(uiConfig.dimension());
-
-        // 1. Create the menu
+        // 4. build Plot panel
+        this.plotPanel = new PlotPanel(areaManager, areaToDataConverter);
+        // 5. Create the menu
         frame.setJMenuBar(buildMenu());
-        // 2. Create the content panel
+        // 6. Create the content panel
         JPanel contentPanel = createParentPanel();
-        // 3. Create the plot panel
-        PlotPanel plotPanel = new PlotPanel(uiConfig.plotInsets(), adapter);
+        // 7. Add the plot panel
         contentPanel.add(plotPanel, BorderLayout.CENTER);
         frame.add(contentPanel);
     }
@@ -52,6 +57,7 @@ public class UiContainer {
         fileMenu.add(buildMenuItem(CONFIG_MENU_ITEM_NAME));
         fileMenu.add(buildMenuItem(BUILD_MENU_ITEM_NAME));
         fileMenu.add(buildMenuItem(BUILD_PLOT_MENU_ITEM_NAME));
+        fileMenu.add(buildMenuItem(DISPLAY_DATA_MENU_ITEM_NAME));
         menuBar.add(fileMenu);
         return menuBar;
     }
@@ -78,15 +84,25 @@ public class UiContainer {
                         }
                         break;
                     case BUILD_MENU_ITEM_NAME:
-                        dataProvider.buildData();
-                        adapter.allDataGenerated();
+                        buildData();
+                        frame.revalidate();
+                        frame.repaint();
                         break;
                     case BUILD_PLOT_MENU_ITEM_NAME:
+                        buildData();
+                        plotPanel.setDisplayData(true);
                         break;
+                    case DISPLAY_DATA_MENU_ITEM_NAME:
+                        plotPanel.setDisplayData(true);
                 }
             };
         });
         return menuItem;
+    }
+
+    private void buildData() {
+        dataProvider.buildData();
+        //adapter.allDataGenerated();
     }
 
     private JPanel createParentPanel() {
@@ -107,9 +123,16 @@ public class UiContainer {
 
     public void dataConfigFileChanged(File newDataConfigFile) {
         if (configManager.dataConfigFileChanged(newDataConfigFile)) {
+            // actions on change of data configuration
             DataConfig dataConfig = configManager.getDataConfig();
             frame.setTitle(dataConfig.getTitle());
+            plotPanel.setDisplayData(false);
         }
         //dataProvider.setPlotBounds();
     }
+
+    public PlotPanel getPlotPanel() {
+        return plotPanel;
+    }
+
 }

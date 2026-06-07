@@ -1,23 +1,61 @@
 package dataandplot.model.plotdata.area;
 
+import dataandplot.config.DataConfig;
+import dataandplot.config.DataLineConfig;
 import dataandplot.model.data.range.MinMaxDouble;
-import dataandplot.model.data.range.MinMaxFloat;
+import dataandplot.model.data.range.RangeType;
+import dataandplot.plot.Insets;
+import dataandplot.plot.provider.GraphDataProvider;
 
-// physical values area in doubles
-// pixel's area in floats
-public class PlotArea {
+import java.awt.*;
+import java.awt.geom.Path2D;
+import java.util.List;
 
-    private final MinMaxDouble physicalRange;
+public class PlotArea extends AbstractArea {
 
-    private MinMaxFloat pixelRange;
+    private final GraphDataProvider graphDataProvider;
+    private DataConfig dataConfig;
 
-    public PlotArea(final MinMaxDouble physicalRange) {
-        this.physicalRange = physicalRange;
+    public PlotArea(final Insets plotInsets, final GraphDataProvider graphDataProvider) {
+        super(plotInsets, PaintAreaType.PLOT_AREA);
+        this.graphDataProvider = graphDataProvider;
     }
 
-    public void setPixelRange(MinMaxFloat pixelRange) {
-        this.pixelRange = pixelRange;
+    @Override
+    public void paintComponent(Graphics2D g2) {
+        paintBorder(g2);
+        if (dataConfig != null) {
+            g2.setColor(Color.BLACK);
+            List<DataLineConfig> dataLineConfigs = dataConfig.getDataLineConfigs();
+            dataLineConfigs.forEach(dlc -> {
+                Path2D.Float path = graphDataProvider.getDataPathInPixels(dlc.name());
+                g2.draw(path);
+            });
+        }
+
+////        Path2D.Float convertedPath = dataProvider.getDataPathInPixels();
+////        g2.draw(convertedPath);
     }
 
+    @Override
+    public void updateAreaRange(MinMaxDouble panelRange) {
+        int xMin = plotInsets.left();
+        int xMax = (int) panelRange.width() - plotInsets.right();
+        int yMin = plotInsets.top();
+        int yMax = (int) panelRange.height() - plotInsets.top() - plotInsets.bottom();
+        areaRange = new MinMaxDouble(xMin, xMax, yMin,yMax);
+        IO.println("PlotArea.updateAreaBounds()   areaRange: " + areaRange);
+        graphDataProvider.onDataRangeChanged(RangeType.PIXEL_RANGE, areaRange);
+        updateComponentRectangle();
+    }
+
+    @Override
+    public void setDataConfig(DataConfig dataConfig) {
+        this.dataConfig = dataConfig;
+    }
+
+    Color getComponentColour() {
+        return Color.GREEN;
+    }
 
 }

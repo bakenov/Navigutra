@@ -34,7 +34,6 @@ public class DataLineGeneratorBuilderImpl implements DataLineGeneratorBuilder {
         return null;
     }
 
-
     @Override
     public DataLineGenerator getDataLineGenerator(final DataLineConfig dataLineConfig) {
         String name = dataLineConfig.name();

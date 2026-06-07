@@ -4,6 +4,8 @@ import dataandplot.config.DataLineConfig;
 import dataandplot.model.data.DataSet;
 import dataandplot.model.data.DataSetDoubleImpl;
 import dataandplot.model.data.DataSetFloatImpl;
+import dataandplot.model.data.range.MinMaxDouble;
+import dataandplot.model.data.range.UpdatableRangeDouble;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,10 +13,12 @@ import java.util.Map;
 public class DataRepositoryImpl implements DataRepository {
 
     private final Map<String, DataSet> dataSetMap;
+    private final UpdatableRangeDouble updatableRange;
     private int dataSize;
 
     public DataRepositoryImpl() {
         this.dataSetMap = new HashMap<>();
+        this.updatableRange = new UpdatableRangeDouble();
     }
 
     // Data config updated
@@ -31,6 +35,16 @@ public class DataRepositoryImpl implements DataRepository {
             dataSetMap.put(name, buildDataSet(dataLineConfig) );
         }
         return dataSetMap.get(name);
+    }
+
+    @Override
+    public MinMaxDouble getDataRange() {
+        updatableRange.reset();
+        dataSetMap.values().forEach(dataSet -> {
+            MinMaxDouble range = dataSet.getDataRange();
+            updatableRange.updateRange(range);
+        });
+        return updatableRange.getMinMaxDouble();
     }
 
     private DataSet buildDataSet(DataLineConfig dataLineConfig) {

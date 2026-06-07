@@ -38,7 +38,7 @@ public class DataSetDoubleImpl extends AbstractDataSet implements DataSetDouble 
         for (int i = 0; i < data.length; i++) {
             double[] point = data[i];
             float[] pixelPoint = dataToPixelConverter.physicalToPixel(point);
-            IO.println("DataSetDoubleImpl.populatePath()   " + Arrays.toString(point) + " -> " + Arrays.toString(pixelPoint));
+            //IO.println("DataSetDoubleImpl.populatePath()   " + Arrays.toString(point) + " -> " + Arrays.toString(pixelPoint));
             if (i == 0)
                 convertedPath.moveTo(pixelPoint[0], pixelPoint[1]);
             else

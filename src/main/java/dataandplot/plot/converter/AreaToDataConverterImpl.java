@@ -3,7 +3,7 @@ package dataandplot.plot.converter;
 import dataandplot.model.data.range.MinMaxDouble;
 import dataandplot.model.data.range.RangeType;
 
-import java.util.Arrays;
+import java.util.function.DoubleUnaryOperator;
 
 public class AreaToDataConverterImpl implements AreaToDataConverter {
 
@@ -14,6 +14,9 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
     private MinMaxDouble areaRange;
     private double scaleFactorX;
     private double scaleFactorY;
+
+    private DoubleUnaryOperator transformerX;
+    private DoubleUnaryOperator transformerY;
 
     @Override
     public void onDataRangeChanged(final RangeType rangeType, final MinMaxDouble range) {
@@ -29,6 +32,8 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
         if (physicalRange != null && areaRange != null) {
             scaleFactorX = areaRange.width() / physicalRange.width();
             scaleFactorY = areaRange.height() / physicalRange.height();
+            transformerX = (double x) -> { return areaRange.minX() + x;};
+            transformerY = (double y) -> { return areaRange.height() + areaRange.minY() - y;};
             IO.println("AreaToDataConverterImpl.onDataRangeChanged()   scales setup  " + this);
         }
     }
@@ -60,12 +65,12 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
 
     @Override
     public float physicalToPixelX(double x) {
-        return (float) (areaRange.minX() + scaleXToPixel(x));
+        return (float) Math.round(transformerX.applyAsDouble(scaleXToPixel(x)));
     }
 
     @Override
     public float physicalToPixelY(double y) {
-        return (float) (areaRange.minY() + scaleYToPixel(y));
+        return (float) Math.round(transformerY.applyAsDouble(scaleYToPixel(y)));
     }
 
     // Convert Pixels to Data
@@ -78,12 +83,7 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
     }
 
     public float[] physicalToPixel(double[] point) {
-        float[] retVal =  new float[] {
-                (float) Math.round(areaRange.minX() + (point[X] - physicalRange.minX()) * scaleFactorX),
-                (float) Math.round(areaRange.height() + areaRange.minY() - (point[Y] - physicalRange.minY()) * scaleFactorY)
-        };
-//        return new float[] {physicalToPixelX(point[X]), physicalToPixelY(point[Y])};
-        return retVal;
+        return new float[] { physicalToPixelX(point[X]), physicalToPixelY(point[Y]) };
     }
 
     public float[] scalePhysicalToPixel(double[] point) {

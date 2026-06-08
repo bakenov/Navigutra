@@ -1,13 +1,13 @@
 package dataandplot.data.range;
 
-public class UpdatableRangeDouble {
+public class UpdatableDataBounds {
 
     private double minX;
     private double maxX;
     private double minY;
     private double maxY;
 
-    public UpdatableRangeDouble() {
+    public UpdatableDataBounds() {
         reset();
     }
 
@@ -18,8 +18,8 @@ public class UpdatableRangeDouble {
         maxY = Double.MIN_VALUE;
     }
 
-    public MinMaxDouble getMinMaxDouble() {
-        return new MinMaxDouble(minX, maxX, minY, maxY);
+    public DataBounds getDataBounds() {
+        return new DataBounds(minX, maxX, minY, maxY);
     }
 
     public void updateRange(double x, double y) {
@@ -29,7 +29,7 @@ public class UpdatableRangeDouble {
         if (y > maxY) maxY = y;
     }
 
-    public void updateRange(MinMaxDouble range) {
+    public void updateRange(DataBounds range) {
         if (range.minX() < minX) minX = range.minX();
         if (range.maxX() > maxX) maxX = range.maxX();
         if (range.minY() < minY) minY = range.minY();

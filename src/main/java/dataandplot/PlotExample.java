@@ -26,7 +26,6 @@ public class PlotExample {
     private final UiContainer ui;
 
     public PlotExample() {
-
         // 1. Data experiment configuration
         ConfigManager configManager = new ConfigManagerImpl();
         // 2. Build Data repository
@@ -50,10 +49,13 @@ public class PlotExample {
         ui.showFrame();
     }
 
+//    private void checkDefaultDataFile
+
     void main() {
         SwingUtilities.invokeLater(() -> {
             PlotExample app = new PlotExample();
             app.showFrame();
+
         });
     }
 }

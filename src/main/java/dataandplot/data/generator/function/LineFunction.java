@@ -1,4 +1,6 @@
 package dataandplot.data.generator.function;
 
-public interface LineFunction {
+import java.util.function.DoubleUnaryOperator;
+
+public interface LineFunction extends DoubleUnaryOperator {
 }

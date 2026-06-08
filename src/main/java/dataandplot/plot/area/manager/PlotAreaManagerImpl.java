@@ -1,7 +1,7 @@
 package dataandplot.plot.area.manager;
 
 import dataandplot.config.ConfigManager;
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.data.range.RangeType;
 import dataandplot.plot.Insets;
 import dataandplot.plot.area.AxisArea;
@@ -37,7 +37,7 @@ public class PlotAreaManagerImpl implements PlotAreaManager {
     }
 
     @Override
-    public void onDataRangeChanged(RangeType rangeType, MinMaxDouble range) {
+    public void onDataRangeChanged(RangeType rangeType, DataBounds range) {
         if (rangeType == RangeType.PIXEL_RANGE) {
             components.forEach(c -> c.updateAreaRange(range));
         }
@@ -46,6 +46,9 @@ public class PlotAreaManagerImpl implements PlotAreaManager {
         }
     }
 
-
+    @Override
+    public GraphDataProvider getGraphDataProvider() {
+        return graphDataProvider;
+    }
 
 }

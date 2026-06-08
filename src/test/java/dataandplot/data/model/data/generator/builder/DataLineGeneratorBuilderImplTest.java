@@ -1,10 +1,10 @@
 package dataandplot.data.model.data.generator.builder;
 
 import dataandplot.config.DataConfig;
-import dataandplot.data.generator.builder.DataLineGeneratorBuilderImpl;
+import dataandplot.data.generator.dataline.builder.DataLineGeneratorBuilderImpl;
 import dataandplot.data.generator.dataline.DataLineGenerator;
-import dataandplot.data.generator.dataline.DataLineGeneratorDouble;
-import dataandplot.data.generator.function.LineFunctionDoubleImpl;
+import dataandplot.data.generator.dataline.DataLineGeneratorImpl;
+import dataandplot.data.generator.function.LineFunctionImpl;
 import dataandplot.data.model.data.generator.BaseGeneratorTest;
 import dataandplot.data.generator.index.IndexToXDouble;
 import dataandplot.data.generator.index.IndexToXDoubleImpl;
@@ -20,15 +20,16 @@ public class DataLineGeneratorBuilderImplTest extends BaseGeneratorTest {
     @Test
     void testBuilder1() {
         DataConfig dataConfig = buildDataConfig();
-        DataLineGeneratorBuilderImpl builder = new DataLineGeneratorBuilderImpl(dataConfig);
+        DataLineGeneratorBuilderImpl builder = new DataLineGeneratorBuilderImpl();
+        builder.setDataConfig(dataConfig);
         DataLineGenerator gen = builder.getDataLineGenerator(buildDataLineConfig());
-        assertInstanceOf(DataLineGeneratorDouble.class, gen);
-        DataLineGeneratorDouble generator = (DataLineGeneratorDouble) gen;
+        assertInstanceOf(DataLineGeneratorImpl.class, gen);
+        DataLineGeneratorImpl generator = (DataLineGeneratorImpl) gen;
         assertEquals("testName", generator.dataLineName());
 
         DoubleUnaryOperator fun = generator.function();
-        assertInstanceOf(LineFunctionDoubleImpl.class, fun);
-        LineFunctionDoubleImpl function = (LineFunctionDoubleImpl) fun;
+        assertInstanceOf(LineFunctionImpl.class, fun);
+        LineFunctionImpl function = (LineFunctionImpl) fun;
         assertEquals(2.5, function.a());
         assertEquals(1, function.b());
 

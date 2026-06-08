@@ -16,7 +16,7 @@ public class BaseGeneratorTest {
     }
 
     public DataLineConfig buildDataLineConfig() {
-        return new DataLineConfig("testName", DataType.DOUBLE, DataGeneratorType.LINE, buildFunctionConfig());
+        return new DataLineConfig("testName", DataGeneratorType.LINE, buildFunctionConfig());
     }
 
     public DataConfig buildDataConfig() {

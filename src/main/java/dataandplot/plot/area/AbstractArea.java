@@ -1,6 +1,6 @@
 package dataandplot.plot.area;
 
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.plot.Insets;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 public abstract class AbstractArea implements PaintArea {
 
     final Insets plotInsets;
-    MinMaxDouble areaRange;
+    DataBounds areaRange;
     final PaintAreaType type;
     Rectangle2D.Double rect;
 

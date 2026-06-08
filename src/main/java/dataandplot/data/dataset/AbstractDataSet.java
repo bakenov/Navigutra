@@ -1,25 +1,25 @@
 package dataandplot.data.dataset;
 
-import dataandplot.data.range.MinMaxDouble;
-import dataandplot.data.range.UpdatableRangeDouble;
+import dataandplot.data.range.DataBounds;
+import dataandplot.data.range.UpdatableDataBounds;
 
 public abstract class AbstractDataSet implements DataSet {
     int dataIndex;
-    final UpdatableRangeDouble updatableRange;
-    MinMaxDouble minMaxDouble;
+    final UpdatableDataBounds updatableRange;
+    DataBounds minMaxDouble;
 
     public AbstractDataSet() {
-        updatableRange = new UpdatableRangeDouble();
+        updatableRange = new UpdatableDataBounds();
         dataIndex = -1;
     }
 
     @Override
     public void endOfData() {
-        minMaxDouble = updatableRange.getMinMaxDouble();
+        minMaxDouble = updatableRange.getDataBounds();
     }
 
     @Override
-    public MinMaxDouble getDataRange() {
+    public DataBounds getDataRange() {
         return minMaxDouble;
     }
 

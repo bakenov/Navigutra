@@ -7,11 +7,11 @@ import static dataandplot.util.Utils.Y;
 
 import java.awt.geom.Path2D;
 
-public class DataSetDoubleImpl extends AbstractDataSet {
+public class DataSetImpl extends AbstractDataSet {
 
     private final double[][] data;
 
-    public DataSetDoubleImpl(int size) {
+    public DataSetImpl(int size) {
         super();
         data = new double[size][2];
     }

@@ -23,6 +23,7 @@ public class UiContainer {
 
     private final ConfigManager configManager;
     private final DataProvider dataProvider;
+    private final PlotAreaManager areaManager;
     private final JFrame frame;
     private final PlotPanel plotPanel;
 
@@ -33,6 +34,7 @@ public class UiContainer {
         // 1. set config manager
         this.configManager = configManager;
         this.dataProvider = dataProvider;
+        this.areaManager = areaManager;
         // 2. get UI config
         UIConfig uiConfig = configManager.getUIConfig();
         // 3. build frame
@@ -54,9 +56,6 @@ public class UiContainer {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         fileMenu.add(buildMenuItem(CONFIG_MENU_ITEM_NAME));
-        fileMenu.add(buildMenuItem(BUILD_MENU_ITEM_NAME));
-        fileMenu.add(buildMenuItem(BUILD_PLOT_MENU_ITEM_NAME));
-        fileMenu.add(buildMenuItem(DISPLAY_DATA_MENU_ITEM_NAME));
         menuBar.add(fileMenu);
         return menuBar;
     }
@@ -82,26 +81,10 @@ public class UiContainer {
                             dataConfigFileChanged(file);
                         }
                         break;
-                    case BUILD_MENU_ITEM_NAME:
-                        buildData();
-                        frame.revalidate();
-                        frame.repaint();
-                        break;
-                    case BUILD_PLOT_MENU_ITEM_NAME:
-                        buildData();
-                        plotPanel.setDisplayData(true);
-                        break;
-                    case DISPLAY_DATA_MENU_ITEM_NAME:
-                        plotPanel.setDisplayData(true);
                 }
             };
         });
         return menuItem;
-    }
-
-    private void buildData() {
-        dataProvider.buildData();
-        //adapter.allDataGenerated();
     }
 
     private JPanel createParentPanel() {
@@ -118,6 +101,11 @@ public class UiContainer {
     public void showFrame() {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        String dataConfigFileName = configManager.getUIConfig().dataConfigFileName();
+        if (dataConfigFileName != null) {
+            String fullFileName = configManager.getConfigDir() + "/" + dataConfigFileName;
+            dataConfigFileChanged(new File(fullFileName));
+        }
     }
 
     public void dataConfigFileChanged(File newDataConfigFile) {
@@ -125,9 +113,11 @@ public class UiContainer {
             // actions on change of data configuration
             DataConfig dataConfig = configManager.getDataConfig();
             frame.setTitle(dataConfig.getTitle());
-            plotPanel.setDisplayData(false);
+            areaManager.getGraphDataProvider().clear();
+            dataProvider.buildData();
+            frame.revalidate();
+            frame.repaint();
         }
-        //dataProvider.setPlotBounds();
     }
 
     public PlotPanel getPlotPanel() {

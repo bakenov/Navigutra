@@ -14,10 +14,10 @@ public class DataConfigImpl implements DataConfig {
     private final List<DataLineConfig> dataLineConfigs;
 
     public DataConfigImpl(final Properties properties) {
-        this.title = properties.getProperty("app.data.title");
-        this.size = Integer.parseInt(properties.getProperty("app.data.size"));
-        this.stepMultiplicator = Double.parseDouble(properties.getProperty("app.data.stepMultiplicator"));
-        dataLineConfigs = new ArrayList<>();
+        this.title = properties.getProperty(TITLE);
+        this.size = Integer.parseInt(properties.getProperty(SIZE));
+        this.stepMultiplicator = Double.parseDouble(properties.getProperty(X_UNIT));
+        this.dataLineConfigs = new ArrayList<>();
         processDataLines(properties);
     }
 

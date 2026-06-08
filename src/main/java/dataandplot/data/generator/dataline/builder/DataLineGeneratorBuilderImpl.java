@@ -1,10 +1,10 @@
-package dataandplot.data.generator.builder;
+package dataandplot.data.generator.dataline.builder;
 
 import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.generator.dataline.DataLineGenerator;
-import dataandplot.data.generator.dataline.DataLineGeneratorDouble;
-import dataandplot.data.generator.function.LineFunctionDoubleImpl;
+import dataandplot.data.generator.dataline.DataLineGeneratorImpl;
+import dataandplot.data.generator.function.LineFunctionImpl;
 import dataandplot.data.generator.index.IndexToXDouble;
 import dataandplot.data.generator.index.IndexToXDoubleImpl;
 
@@ -13,19 +13,22 @@ import java.util.Map;
 
 public class DataLineGeneratorBuilderImpl implements DataLineGeneratorBuilder {
 
-    private final DataConfig dataConfig;
-    private final IndexToXDouble indexToXDouble;
     private final Map<String, DataLineGenerator> dataGeneratorMap;
+    private DataConfig dataConfig;
+    private IndexToXDouble indexToXDouble;
 
-    public DataLineGeneratorBuilderImpl(DataConfig dataConfig) {
-        this.dataConfig = dataConfig;
-        indexToXDouble = new IndexToXDoubleImpl(dataConfig.getStepMultiplicator());
+    public DataLineGeneratorBuilderImpl() {
         dataGeneratorMap = new HashMap<>();
     }
 
+    public void setDataConfig(final DataConfig dataConfig) {
+        this.dataConfig = dataConfig;
+        this.indexToXDouble = new IndexToXDoubleImpl(dataConfig.getStepMultiplicator());
+    }
+
     private DataLineGenerator buildDataLineGenerator(DataLineConfig dataLineConfig) {
-        LineFunctionDoubleImpl functionDouble = new LineFunctionDoubleImpl(dataLineConfig);
-        return new DataLineGeneratorDouble(dataConfig, dataLineConfig, functionDouble, indexToXDouble);
+        LineFunctionImpl functionDouble = new LineFunctionImpl(dataLineConfig);
+        return new DataLineGeneratorImpl(dataConfig, dataLineConfig, functionDouble, indexToXDouble);
     }
 
     @Override

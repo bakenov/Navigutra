@@ -1,6 +1,6 @@
 package dataandplot.plot.converter;
 
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.data.range.RangeType;
 
 import static dataandplot.util.Utils.X;
@@ -10,8 +10,8 @@ import java.util.function.DoubleUnaryOperator;
 
 public class AreaToDataConverterImpl implements AreaToDataConverter {
 
-    private MinMaxDouble physicalRange;
-    private MinMaxDouble areaRange;
+    private DataBounds physicalRange;
+    private DataBounds areaRange;
     private double scaleFactorX;
     private double scaleFactorY;
 
@@ -19,7 +19,7 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
     private DoubleUnaryOperator transformerY;
 
     @Override
-    public void onDataRangeChanged(final RangeType rangeType, final MinMaxDouble range) {
+    public void onDataRangeChanged(final RangeType rangeType, final DataBounds range) {
         if (range.width() == 0.0 || range.height() == 0.0) {
             throw new RuntimeException("width or height of the range is zero.  " + range);
         }
@@ -32,8 +32,8 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
         if (physicalRange != null && areaRange != null) {
             scaleFactorX = areaRange.width() / physicalRange.width();
             scaleFactorY = areaRange.height() / physicalRange.height();
-            transformerX = (double x) -> { return areaRange.minX() + x;};
-            transformerY = (double y) -> { return areaRange.height() + areaRange.minY() - y;};
+            transformerX = (double x) -> areaRange.minX() + x;
+            transformerY = (double y) -> areaRange.height() + areaRange.minY() - y;
             IO.println("AreaToDataConverterImpl.onDataRangeChanged()   scales setup  " + this);
         }
     }
@@ -43,7 +43,7 @@ public class AreaToDataConverterImpl implements AreaToDataConverter {
         return physicalRange != null && areaRange != null;
     }
 
-    private void processAreaRangeChange(final MinMaxDouble range) {
+    private void processAreaRangeChange(final DataBounds range) {
         if (range.minX() < 0.0 || range.minY() < 0.0) {
             throw new RuntimeException("Pixel range is invalid.  " + range);
         }

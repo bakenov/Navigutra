@@ -2,7 +2,7 @@ package dataandplot.plot.area;
 
 import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.data.range.RangeType;
 import dataandplot.plot.Insets;
 import dataandplot.plot.provider.GraphDataProvider;
@@ -38,12 +38,12 @@ public class PlotArea extends AbstractArea {
     }
 
     @Override
-    public void updateAreaRange(MinMaxDouble panelRange) {
+    public void updateAreaRange(DataBounds panelRange) {
         int xMin = plotInsets.left();
         int xMax = (int) panelRange.width() - plotInsets.right();
         int yMin = plotInsets.top();
         int yMax = (int) panelRange.height() - plotInsets.top() - plotInsets.bottom();
-        areaRange = new MinMaxDouble(xMin, xMax, yMin,yMax);
+        areaRange = new DataBounds(xMin, xMax, yMin,yMax);
         IO.println("PlotArea.updateAreaBounds()   areaRange: " + areaRange);
         graphDataProvider.onDataRangeChanged(RangeType.PIXEL_RANGE, areaRange);
         updateComponentRectangle();

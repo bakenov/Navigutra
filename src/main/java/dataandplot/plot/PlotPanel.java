@@ -1,6 +1,6 @@
 package dataandplot.plot;
 
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.data.range.RangeChangeListener;
 import dataandplot.data.range.RangeType;
 import dataandplot.plot.area.manager.PlotAreaManager;
@@ -43,8 +43,8 @@ public class PlotPanel extends JPanel {
             public void componentResized(ComponentEvent e) {
             Rectangle2D area = e.getComponent().getBounds();
             IO.println("PlotPanel.componentResized()  bounds:" + area);
-            IO.println("PlotPanel.componentResized()  MinMaxDouble:" + MinMaxDouble.of(area));
-            listeners.forEach(l -> l.onDataRangeChanged(RangeType.PIXEL_RANGE, MinMaxDouble.of(area)));
+            IO.println("PlotPanel.componentResized()  MinMaxDouble:" + DataBounds.of(area));
+            listeners.forEach(l -> l.onDataRangeChanged(RangeType.PIXEL_RANGE, DataBounds.of(area)));
             }
         });
     }
@@ -57,13 +57,6 @@ public class PlotPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         areaManager.paintPlot((Graphics2D) g);
-    }
-
-    public void setDisplayData(boolean displayData) {
-        if (displayData) {
-//            axisX.setRanges();
-//            axisY.setRanges();
-        }
     }
 
 }

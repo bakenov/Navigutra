@@ -2,9 +2,9 @@ package dataandplot.data.repository;
 
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.dataset.DataSet;
-import dataandplot.data.dataset.DataSetDoubleImpl;
-import dataandplot.data.range.MinMaxDouble;
-import dataandplot.data.range.UpdatableRangeDouble;
+import dataandplot.data.dataset.DataSetImpl;
+import dataandplot.data.range.DataBounds;
+import dataandplot.data.range.UpdatableDataBounds;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +12,18 @@ import java.util.Map;
 public class DataRepositoryImpl implements DataRepository {
 
     private final Map<String, DataSet> dataSetMap;
-    private final UpdatableRangeDouble updatableRange;
+    private final UpdatableDataBounds updatableRange;
     private int dataSize;
 
     public DataRepositoryImpl() {
         this.dataSetMap = new HashMap<>();
-        this.updatableRange = new UpdatableRangeDouble();
+        this.updatableRange = new UpdatableDataBounds();
+    }
+
+    public void clear() {
+        dataSetMap.clear();
+        updatableRange.reset();
+        dataSize = 0;
     }
 
     // Data config updated
@@ -37,16 +43,16 @@ public class DataRepositoryImpl implements DataRepository {
     }
 
     @Override
-    public MinMaxDouble getDataRange() {
+    public DataBounds getDataRange() {
         updatableRange.reset();
         dataSetMap.values().forEach(dataSet -> {
-            MinMaxDouble range = dataSet.getDataRange();
+            DataBounds range = dataSet.getDataRange();
             updatableRange.updateRange(range);
         });
-        return updatableRange.getMinMaxDouble();
+        return updatableRange.getDataBounds();
     }
 
     private DataSet buildDataSet(DataLineConfig dataLineConfig) {
-        return new DataSetDoubleImpl(dataSize);
+        return new DataSetImpl(dataSize);
     }
 }

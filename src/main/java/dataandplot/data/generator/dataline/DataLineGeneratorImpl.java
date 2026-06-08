@@ -7,10 +7,10 @@ import dataandplot.data.generator.index.IndexToXDouble;
 
 import java.util.function.DoubleUnaryOperator;
 
-public record DataLineGeneratorDouble(String dataLineName, int size, DoubleUnaryOperator function,
-                                      IndexToXDouble indexToXDouble) implements DataLineGenerator {
+public record DataLineGeneratorImpl(String dataLineName, int size, DoubleUnaryOperator function,
+                                    IndexToXDouble indexToXDouble) implements DataLineGenerator {
 
-    public DataLineGeneratorDouble(DataConfig dataConfig, DataLineConfig dataLineConfig, final DoubleUnaryOperator function, final IndexToXDouble indexToXDouble) {
+    public DataLineGeneratorImpl(DataConfig dataConfig, DataLineConfig dataLineConfig, final DoubleUnaryOperator function, final IndexToXDouble indexToXDouble) {
         this(dataLineConfig.name(), dataConfig.getSize(), function, indexToXDouble);
     }
 

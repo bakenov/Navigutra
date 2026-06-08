@@ -4,14 +4,16 @@ import dataandplot.config.DataLineConfig;
 import dataandplot.config.FunctionConfig;
 import dataandplot.data.generator.function.param.Parameter;
 
+import java.util.function.DoubleUnaryOperator;
 
-public record LineFunctionDoubleImpl(double a, double b) implements LineFunctionDouble {
 
-    public LineFunctionDoubleImpl(DataLineConfig dataLineConfig) {
+public record LineFunctionImpl(double a, double b) implements DoubleUnaryOperator {
+
+    public LineFunctionImpl(DataLineConfig dataLineConfig) {
         this(dataLineConfig.functionConfig());
     }
 
-    public LineFunctionDoubleImpl(FunctionConfig functionConfig) {
+    public LineFunctionImpl(FunctionConfig functionConfig) {
         this(functionConfig.getDoubleValueBy(Parameter.LINE_A),
                 functionConfig.getDoubleValueBy(Parameter.LINE_B));
     }

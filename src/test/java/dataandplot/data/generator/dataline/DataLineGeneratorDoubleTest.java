@@ -2,12 +2,12 @@ package dataandplot.data.generator.dataline;
 
 import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
-import dataandplot.data.generator.function.LineFunctionDoubleImpl;
+import dataandplot.data.generator.function.LineFunctionImpl;
 import dataandplot.data.model.data.generator.BaseGeneratorTest;
-import dataandplot.data.dataset.DataSetDoubleImpl;
+import dataandplot.data.dataset.DataSetImpl;
 import dataandplot.data.generator.index.IndexToXDouble;
 import dataandplot.data.generator.index.IndexToXDoubleImpl;
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.DoubleUnaryOperator;
@@ -21,14 +21,14 @@ public class DataLineGeneratorDoubleTest extends BaseGeneratorTest {
         DataConfig dataConfig = buildDataConfig();
 
         DataLineConfig dataLineConfig = buildDataLineConfig();
-        DoubleUnaryOperator function = new LineFunctionDoubleImpl(dataLineConfig);
+        DoubleUnaryOperator function = new LineFunctionImpl(dataLineConfig);
         IndexToXDouble indexToXDouble = new IndexToXDoubleImpl(dataConfig.getStepMultiplicator());
 
-        DataLineGeneratorDouble generator = new DataLineGeneratorDouble(dataConfig,
+        DataLineGeneratorImpl generator = new DataLineGeneratorImpl(dataConfig,
                 dataLineConfig, function, indexToXDouble);
 
-        DataSetDoubleImpl dataSetDouble = new DataSetDoubleImpl(dataConfig.getSize());
-        MinMaxDouble range = dataSetDouble.getDataRange();
+        DataSetImpl dataSetDouble = new DataSetImpl(dataConfig.getSize());
+        DataBounds range = dataSetDouble.getDataRange();
         assertNull(range);
 
         generator.populateDataSet(dataSetDouble);

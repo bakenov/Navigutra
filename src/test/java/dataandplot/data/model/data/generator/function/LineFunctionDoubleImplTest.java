@@ -1,7 +1,7 @@
 package dataandplot.data.model.data.generator.function;
 
 import dataandplot.config.DataLineConfig;
-import dataandplot.data.generator.function.LineFunctionDoubleImpl;
+import dataandplot.data.generator.function.LineFunctionImpl;
 import dataandplot.data.model.data.generator.BaseGeneratorTest;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ public class LineFunctionDoubleImplTest extends BaseGeneratorTest {
     void test() {
         // build data config
         DataLineConfig dataLineConfig = buildDataLineConfig();
-        LineFunctionDoubleImpl functionDouble = new LineFunctionDoubleImpl(dataLineConfig);
+        LineFunctionImpl functionDouble = new LineFunctionImpl(dataLineConfig);
         assertEquals(2.5, functionDouble.a());
         assertEquals(1.0, functionDouble.b());
 

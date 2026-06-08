@@ -1,6 +1,6 @@
 package dataandplot.plot.converter;
 
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.data.range.RangeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,46 +25,46 @@ public class AreaToDataConverterImplTest {
     @Test
     void testOnePoint() {
         assertFalse(converter.canConvert());
-        MinMaxDouble physicalRange = MinMaxDouble.of(0,0, 1, 10);
+        DataBounds physicalRange = DataBounds.of(0,0, 1, 10);
         assertThrows(RuntimeException.class, () -> converter.onDataRangeChanged(RangeType.PHYSICAL_RANGE, physicalRange));
     }
 
     @Test
     void testInvalidPixelArea() {
         assertFalse(converter.canConvert());
-        MinMaxDouble areaRange = MinMaxDouble.of(-1,1, 1, 10);
+        DataBounds areaRange = DataBounds.of(-1,1, 1, 10);
         assertThrows(RuntimeException.class, () -> converter.onDataRangeChanged(RangeType.PIXEL_RANGE, areaRange));
     }
 
     @Test
     void testSimpleCase() {
-        MinMaxDouble physicalRange = MinMaxDouble.of(0, 10,0, 10);
-        MinMaxDouble areaRange = MinMaxDouble.of(0, 10,0, 10);
+        DataBounds physicalRange = DataBounds.of(0, 10,0, 10);
+        DataBounds areaRange = DataBounds.of(0, 10,0, 10);
         doStandardTest(physicalRange, areaRange);
     }
 
     @Test
     void testCase1() {
-        MinMaxDouble physicalRange = MinMaxDouble.of(10);
-        MinMaxDouble areaRange = MinMaxDouble.of(20, 20);
+        DataBounds physicalRange = DataBounds.of(10);
+        DataBounds areaRange = DataBounds.of(20, 20);
         doStandardTest(physicalRange, areaRange);
     }
 
     @Test
     void testCase2() {
-        MinMaxDouble physicalRange = MinMaxDouble.of(10);
-        MinMaxDouble areaRange = MinMaxDouble.of(10, 10);
+        DataBounds physicalRange = DataBounds.of(10);
+        DataBounds areaRange = DataBounds.of(10, 10);
         doStandardTest(physicalRange, areaRange);
     }
 
     @Test
     void testCase3() {
-        MinMaxDouble physicalRange = MinMaxDouble.of(0, 1, -100, 100);
-        MinMaxDouble areaRange = MinMaxDouble.of(20, 20);
+        DataBounds physicalRange = DataBounds.of(0, 1, -100, 100);
+        DataBounds areaRange = DataBounds.of(20, 20);
         doStandardTest(physicalRange, areaRange);
     }
 
-    private void doStandardTest(MinMaxDouble physicalRange, MinMaxDouble areaRange) {
+    private void doStandardTest(DataBounds physicalRange, DataBounds areaRange) {
         assertFalse(converter.canConvert());
         converter.onDataRangeChanged(RangeType.PHYSICAL_RANGE, physicalRange);
         assertFalse(converter.canConvert());
@@ -79,7 +79,7 @@ public class AreaToDataConverterImplTest {
         }
     }
 
-    private List<double[]> buildDoublePoints(MinMaxDouble range) {
+    private List<double[]> buildDoublePoints(DataBounds range) {
         List<double[]> list = new ArrayList<>();
         list.add(new double[] {range.minX(), range.minY()});
         list.add(new double[] {range.maxX(), range.minY()});
@@ -89,7 +89,7 @@ public class AreaToDataConverterImplTest {
         return list;
     }
 
-    private List<float[]> buildFloatPoints(MinMaxDouble areaRange) {
+    private List<float[]> buildFloatPoints(DataBounds areaRange) {
         List<float[]> list = new ArrayList<>();
         list.add(new float[] {(float) areaRange.minX(), (float) areaRange.minY()});
         list.add(new float[] {(float) areaRange.maxX(), (float) areaRange.minY()});

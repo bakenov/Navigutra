@@ -1,7 +1,7 @@
 package dataandplot.plot.area;
 
 import dataandplot.config.DataConfig;
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.plot.Insets;
 
 import java.awt.*;
@@ -28,14 +28,14 @@ public class TitleArea extends AbstractArea {
     }
 
     @Override
-    public void updateAreaRange(MinMaxDouble range) {
+    public void updateAreaRange(DataBounds range) {
         IO.println("TitleArea.updateAreaBounds()   range: " + range);
         IO.println("TitleArea.updateAreaBounds()   plotInsets: " + plotInsets);
         int xMin = plotInsets.left();
         int xMax = (int) range.width() - plotInsets.right();
         int yMin = 0;
         int yMax = yMin + plotInsets.top();
-        areaRange = new MinMaxDouble(xMin, xMax, yMin,yMax);
+        areaRange = new DataBounds(xMin, xMax, yMin,yMax);
         updateComponentRectangle();
     }
 

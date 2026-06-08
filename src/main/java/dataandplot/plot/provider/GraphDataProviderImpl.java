@@ -5,7 +5,7 @@ import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.repository.DataRepository;
 import dataandplot.data.dataset.DataSet;
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.data.range.RangeType;
 import dataandplot.plot.converter.AreaToDataConverter;
 
@@ -30,7 +30,7 @@ public class GraphDataProviderImpl implements GraphDataProvider {
     }
 
     @Override
-    public void onDataRangeChanged(RangeType rangeType, MinMaxDouble range) {
+    public void onDataRangeChanged(RangeType rangeType, DataBounds range) {
         areaToDataConverter.onDataRangeChanged(rangeType, range);
         if (areaToDataConverter.isReady()) {
             updateDataToPixelPaths();
@@ -59,6 +59,11 @@ public class GraphDataProviderImpl implements GraphDataProvider {
             return convertedPathMap.get(pathName);
         }
         throw new RuntimeException("Data Path not found for name:" + pathName);
+    }
+
+    @Override
+    public void clear() {
+        convertedPathMap.clear();
     }
 
     @Override

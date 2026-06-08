@@ -1,7 +1,7 @@
 package dataandplot.plot.area;
 
 import dataandplot.config.DataConfig;
-import dataandplot.data.range.MinMaxDouble;
+import dataandplot.data.range.DataBounds;
 import dataandplot.plot.Insets;
 import dataandplot.plot.converter.AreaToDataConverter;
 
@@ -23,7 +23,7 @@ public class AxisArea extends AbstractArea {
     }
 
     @Override
-    public void updateAreaRange(MinMaxDouble range) {
+    public void updateAreaRange(DataBounds range) {
         int xMin = 0, xMax = 0, yMin = 0, yMax = 0;
         if (type == PaintAreaType.X_AXIS) {
             xMin = plotInsets.left();
@@ -36,7 +36,7 @@ public class AxisArea extends AbstractArea {
             yMin = 0;
             yMax = (int) range.height();
         }
-        areaRange = new MinMaxDouble(xMin, xMax, yMin, yMax);
+        areaRange = new DataBounds(xMin, xMax, yMin, yMax);
         updateComponentRectangle();
     }
 

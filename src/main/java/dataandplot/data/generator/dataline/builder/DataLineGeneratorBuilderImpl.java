@@ -4,7 +4,9 @@ import dataandplot.config.DataConfig;
 import dataandplot.config.DataLineConfig;
 import dataandplot.data.generator.dataline.DataLineGenerator;
 import dataandplot.data.generator.dataline.DataLineGeneratorImpl;
+import dataandplot.data.generator.function.DataFunction;
 import dataandplot.data.generator.function.LineFunctionImpl;
+import dataandplot.data.generator.function.SineFunctionImpl;
 import dataandplot.data.generator.index.IndexToXDouble;
 import dataandplot.data.generator.index.IndexToXDoubleImpl;
 
@@ -15,7 +17,6 @@ public class DataLineGeneratorBuilderImpl implements DataLineGeneratorBuilder {
 
     private final Map<String, DataLineGenerator> dataGeneratorMap;
     private DataConfig dataConfig;
-    private IndexToXDouble indexToXDouble;
 
     public DataLineGeneratorBuilderImpl() {
         dataGeneratorMap = new HashMap<>();
@@ -23,12 +24,19 @@ public class DataLineGeneratorBuilderImpl implements DataLineGeneratorBuilder {
 
     public void setDataConfig(final DataConfig dataConfig) {
         this.dataConfig = dataConfig;
-        this.indexToXDouble = new IndexToXDoubleImpl(dataConfig.getStepMultiplicator());
     }
 
     private DataLineGenerator buildDataLineGenerator(DataLineConfig dataLineConfig) {
-        LineFunctionImpl functionDouble = new LineFunctionImpl(dataLineConfig);
-        return new DataLineGeneratorImpl(dataConfig, dataLineConfig, functionDouble, indexToXDouble);
+        DataFunction dataFunction = null;
+        switch (dataLineConfig.funType()) {
+            case LINE:
+                dataFunction = new LineFunctionImpl(dataLineConfig);
+                break;
+            case SINE:
+                dataFunction = new SineFunctionImpl(dataLineConfig);
+                break;
+        }
+        return new DataLineGeneratorImpl(dataConfig, dataLineConfig, dataFunction, dataFunction.indexToXDouble());
     }
 
     @Override

@@ -10,13 +10,11 @@ public class DataConfigImpl implements DataConfig {
 
     private final String title;
     private final int size;
-    private final double stepMultiplicator;
     private final List<DataLineConfig> dataLineConfigs;
 
     public DataConfigImpl(final Properties properties) {
         this.title = properties.getProperty(TITLE);
         this.size = Integer.parseInt(properties.getProperty(SIZE));
-        this.stepMultiplicator = Double.parseDouble(properties.getProperty(X_UNIT));
         this.dataLineConfigs = new ArrayList<>();
         processDataLines(properties);
     }
@@ -47,16 +45,12 @@ public class DataConfigImpl implements DataConfig {
         return size;
     }
 
-    public double getStepMultiplicator() {
-        return stepMultiplicator;
-    }
-
     @Override
     public List<DataLineConfig> getDataLineConfigs() {
         return dataLineConfigs;
     }
 
     public String toString() {
-        return "DataConfig(" + title + "|" + size + "|" + stepMultiplicator + "|" + dataLineConfigs + ")";
+        return "DataConfig(" + title + "|" + size + "|" + dataLineConfigs + ")";
     }
 }

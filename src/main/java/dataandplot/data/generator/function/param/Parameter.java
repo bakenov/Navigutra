@@ -3,9 +3,10 @@ package dataandplot.data.generator.function.param;
 public enum Parameter {
     LINE_A("line.a"),
     LINE_B("line.b"),
+    LINE_STEP_VALUE("line.stepValue"),
     SIN_AMPLITUDE("sine.amplitude"),
-    SIN_THETA_INIT("sine.thetaInit"),
-    SIN_THETA_STEP("sine.thetaStep"),
+    SIN_INIT_RADIAN("sine.initInRadian"),
+    SIN_STEP_VALUE("sine.stepValue"),
     NOISE_LEVEL("noise.noiseLevel");
 
     private final String propertyName;
